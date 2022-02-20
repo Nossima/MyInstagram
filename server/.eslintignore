@@ -1,9 +1,0 @@
-node_modules
-dist
-coverage
-.idea
-.vscode
-.eslintrc.js
-build
-babel.config.js
-jest.config.ts
