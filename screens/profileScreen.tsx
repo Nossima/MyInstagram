@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Navigation } from '../navigation/navigation';
 import ProfileImage from '../assets/profileImage.png';
@@ -13,7 +13,7 @@ let nbPosts = 7;
 let nbFollowers = 83;
 let nbFollowing = 86;
 let bio = 'Fume la vie avant quelle te fume - Baudelaire';
-let postsData = [[0, PostImage], [1, PostImage], [2, PostImage], [3, PostImage], [4, PostImage], [5, PostImage], [6, PostImage]];
+let postsData = [[0, PostImage], [1, PostImage], [2, PostImage], [3, PostImage], [4, PostImage], [5, PostImage], [6, PostImage], [7, PostImage], [8, PostImage], [9, PostImage], [10, PostImage], [11, PostImage], [12, PostImage]];
 
 const top = () => {
 	if (isMe) {
@@ -101,7 +101,7 @@ const posts = () => {
 		viewPosts.push(<View style={[styles.row, { marginTop: '0.5%' }]} key={postsData.length / 3}>{row}</View>);
 	}
 
-	return (<View style={{ marginTop: '4%' }}>{viewPosts}</View>);
+	return (<ScrollView style={{ marginTop: '4%' }}>{viewPosts}</ScrollView>);
 }
 
 export const ProfileScreen: React.VFC = () => {
