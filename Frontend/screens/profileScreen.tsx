@@ -6,10 +6,11 @@ import { Navigation } from '../navigation/navigation';
 import ProfileImage from '../assets/profileImage.png';
 import PostImage from '../assets/event.jpg';
 
-let isMe = true;
-let isPrivate = false;
-let isFollow = true;
-let nbPosts = 7;
+let isMe = false;
+let isPrivate = true;
+let isFollow = false;
+let nickname = 'alexandreguichet'
+let nbPosts = 13;
 let nbFollowers = 83;
 let nbFollowing = 86;
 let bio = 'Fume la vie avant quelle te fume - Baudelaire';
@@ -19,7 +20,7 @@ const top = () => {
 	if (isMe) {
 		return (
 			<View style={styles.row}>
-				<Text style={styles.nickname}>alexandreguichet</Text>
+				<Text style={styles.nickname}>{nickname}</Text>
 				<TouchableOpacity activeOpacity={.5}>
 					<Icon name={'add-circle-outline'} size={30} color={'#ffffff'} />
 				</TouchableOpacity>
@@ -31,7 +32,7 @@ const top = () => {
 			<TouchableOpacity activeOpacity={.5}>
 				<Icon name={'chevron-back-outline'} size={30} color={'rgba(255, 255, 255, 1)'} />
 			</TouchableOpacity>
-			<Text style={styles.nickname}>alexandreguichet</Text>
+			<Text style={styles.nickname}>{nickname}</Text>
 			<Icon name={'chevron-back-outline'} size={30} color={'rgba(0, 0, 0, 1)'} />
 		</View>
 	);
@@ -42,7 +43,7 @@ const viewButtons = () => {
 		return (
 			<View style={{ marginTop: '4%' }}>
 				<TouchableOpacity style={styles.buttonBorder} activeOpacity={.5}>
-					<Text style={[styles.txt, styles.txtButton]}>Edit profile</Text>
+					<Text style={[styles.txt, { paddingVertical: '1.5%' }]}>Edit profile</Text>
 				</TouchableOpacity>
 			</View>
 		);
@@ -50,8 +51,8 @@ const viewButtons = () => {
 	if (!isFollow && isPrivate) {
 		return (
 			<View style={{ marginTop: '4%' }}>
-				<TouchableOpacity style={styles.buttonBorder} activeOpacity={.5}>
-					<Text style={[styles.txt, styles.txtButton, { backgroundColor: 'rgba(0, 140, 255, 1)' }]}>Follow</Text>
+				<TouchableOpacity style={[styles.buttonBorder, { backgroundColor: 'rgba(0, 140, 255, 1)' }]} activeOpacity={.5}>
+					<Text style={[styles.txt, { paddingVertical: '1.5%' }]}>Follow</Text>
 				</TouchableOpacity>
 			</View>
 		);
@@ -59,11 +60,11 @@ const viewButtons = () => {
 	if (!isFollow) {
 		return (
 			<View style={[styles.row, { marginTop: '4%' }]}>
-				<TouchableOpacity style={[styles.buttonBorder, { width: '49%' }]} activeOpacity={.5}>
-					<Text style={[styles.txt, styles.txtButton, { backgroundColor: 'rgba(0, 140, 255, 1)', paddingVertical: '3%' }]}>Follow</Text>
+				<TouchableOpacity style={[styles.buttonBorder, { backgroundColor: 'rgba(0, 140, 255, 1)', width: '49%' }]} activeOpacity={.5}>
+					<Text style={[styles.txt, { paddingVertical: '3%' }]}>Follow</Text>
 				</TouchableOpacity>
 				<TouchableOpacity style={[styles.buttonBorder, { width: '49%' }]} activeOpacity={.5}>
-					<Text style={[styles.txt, styles.txtButton, { paddingVertical: '3%' }]}>Message</Text>
+					<Text style={[styles.txt, { paddingVertical: '3%' }]}>Message</Text>
 				</TouchableOpacity>
 			</View>
 		);
@@ -71,10 +72,10 @@ const viewButtons = () => {
 	return (
 		<View style={[styles.row, { marginTop: '4%' }]}>
 			<TouchableOpacity style={[styles.buttonBorder, { width: '49%' }]} activeOpacity={.5} onPress={() => isFollow = false}>
-				<Text style={[styles.txt, styles.txtButton, { paddingVertical: '3%' }]}>Following</Text>
+				<Text style={[styles.txt, { paddingVertical: '3%' }]}>Following</Text>
 			</TouchableOpacity>
 			<TouchableOpacity style={[styles.buttonBorder, { width: '49%' }]} activeOpacity={.5}>
-				<Text style={[styles.txt, styles.txtButton, { paddingVertical: '3%' }]}>Message</Text>
+				<Text style={[styles.txt, { paddingVertical: '3%' }]}>Message</Text>
 			</TouchableOpacity>
 		</View>
 	);
@@ -171,10 +172,6 @@ const styles = StyleSheet.create({
 	buttonBorder: {
 		borderWidth: 1,
 		borderColor: 'rgba(85, 85, 85, 1)',
-		borderRadius: 5,
-	},
-	txtButton: {
-		paddingVertical: '1.5%',
 		borderRadius: 5,
 	},
 	post: {

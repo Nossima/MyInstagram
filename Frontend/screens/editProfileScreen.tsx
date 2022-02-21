@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { Navigation } from '../navigation/navigation';
 
-export const StartScreen: React.VFC = () => {
+export const EditProfileScreen: React.VFC = () => {
 	const Navigation = useNavigation();
 
 	return (

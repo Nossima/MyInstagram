@@ -1,5 +1,5 @@
 export enum Navigation {
-    Start = 'Start',
+    EditProfile = 'EditProfile',
     Home = 'Home',
     Profile = 'Profile',
 }
