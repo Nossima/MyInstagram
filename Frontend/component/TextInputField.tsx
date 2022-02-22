@@ -14,15 +14,15 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 //     </View>
 // }
 
-export const TextInputField: React.VFC<{name: string, value: string, onChangeText: any, errorMsg: string, isError: boolean}> = ({name, value, onChangeText, errorMsg, isError}) => {
+export const TextInputField: React.VFC<{name: string, value: string, onChangeText: any, errorMsg: string, isError: boolean, isHidden: boolean}> = ({name, value, onChangeText, errorMsg, isError, isHidden}) => {
     if (isError) {
         return <View style={styles.container}>
-            <TextInput style={styles.inputError} value={value} onChangeText={onChangeText} placeholder={name} placeholderTextColor='red'/>
+            <TextInput style={styles.inputError} value={value} onChangeText={onChangeText} placeholder={name} placeholderTextColor='red' secureTextEntry={isHidden}/>
             <Text style={styles.textError}>{errorMsg}</Text>
         </View>
     }
     return <View style={styles.container}>
-        <TextInput style={styles.input} value={value} onChangeText={onChangeText} placeholder={name} placeholderTextColor='rgba(85, 85, 85, 1)'/>
+        <TextInput style={styles.input} value={value} onChangeText={onChangeText} placeholder={name} placeholderTextColor='rgba(85, 85, 85, 1)' secureTextEntry={isHidden}/>
     </View>
 }
 
