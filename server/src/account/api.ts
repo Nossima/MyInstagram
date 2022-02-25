@@ -1,6 +1,6 @@
 import { APIRequest } from 'global/api';
 import {
-  BadRequest,
+  BadRequest, NotFound,
   Ok,
   Result, Unauthorized
 } from 'global/result';
@@ -11,6 +11,7 @@ import { Account } from './models';
 import getAccountList, { GetAccountList } from 'account/list';
 import getAccountByUsername, { GetAccountByUsername } from 'account/get/byUsername';
 import login, { Login } from 'account/login';
+import { error } from 'global/error';
 
 class AccountAPI {
   private createAccount: CreateAccount;
@@ -29,8 +30,8 @@ class AccountAPI {
     validate(
       yup.object({
         username: yup.string().required('error.username.required'),
-        email: yup.string().required('error.email.required'),
-        password: yup.string().required('error.password.required'),
+        email: yup.string().email('error.email.invalid').required('error.email.required'),
+        password: yup.string().min(8, 'error.password.short').required('error.password.required'),
         birthDate: yup.number().positive('error.birthdate.invalid')
       })
     )(req.body as Partial<Account>)((body) =>
@@ -55,7 +56,7 @@ class AccountAPI {
         body as Partial<Account>
       ).then((errorOrToken) =>
         errorOrToken.cata(
-          Unauthorized,
+          (err) => Unauthorized(err),
           (token) => Ok({ token })
         )
       )
@@ -71,13 +72,17 @@ class AccountAPI {
       );
 
   getByUsername: APIRequest = (req): Promise<Result> =>
-    this.getAccountByUsername(req.params.username)
-      .then((maybeAccount) =>
-        maybeAccount.cata(
-          BadRequest,
-          (account) => Ok({ account })
+    validate(
+      yup.object({ username: yup.string().required('error.username.required') })
+    )(req.params)(() =>
+      this.getAccountByUsername(req.params.username)
+        .then((maybeAccount) =>
+          maybeAccount.cata(
+            () => NotFound(error('user', 'error.user.unknown')),
+            (account) => Ok({ account })
+          )
         )
-      );
+    );
 }
 
 export default AccountAPI;

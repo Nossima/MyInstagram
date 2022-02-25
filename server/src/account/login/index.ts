@@ -20,7 +20,7 @@ const getAccount = (account: Partial<Account>): Promise<Maybe<Account>> =>
   getAccountByUsername(account.username)
     .then((maybeAccount) =>
       maybeAccount.cata(
-        () => getAccountByEmail(account.email)
+        () => getAccountByEmail(account.username)
           .then((maybeUser) =>
             maybeUser.cata(
               () => None(),
