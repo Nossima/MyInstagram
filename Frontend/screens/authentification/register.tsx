@@ -2,9 +2,12 @@ import React from "react";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Switch } from "react-native";
 import { TextInputField } from "../../component/TextInputField";
+<<<<<<< HEAD
 import * as SecureStore from 'expo-secure-store';
 
 import { authentificationService } from "../../service/authentification/";
+=======
+>>>>>>> 5fb8671d14ad796f07910ea0d1eb7c67f15e66cb
 
 export const Register: React.VFC<any> = ({ navigation }) => {
     let [username, onChangeUsername] = React.useState('');
@@ -55,6 +58,7 @@ export const Register: React.VFC<any> = ({ navigation }) => {
         if (isUsernameError || isEmailError || isPasswordError || isCheckPasswordError) {
             return false;
         }
+<<<<<<< HEAD
         return register();
     };
 
@@ -110,6 +114,11 @@ export const Register: React.VFC<any> = ({ navigation }) => {
         });
     }
 
+=======
+        return true;
+    };
+
+>>>>>>> 5fb8671d14ad796f07910ea0d1eb7c67f15e66cb
     return <View style={styles.background}>
         <View style={{alignItems: 'center'}}>
             <Image style={styles.logo} source={require('../../assets/Instagram_icon.png')}/>

@@ -2,9 +2,12 @@ import React from "react";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { TextInputField } from "../../component/TextInputField";
+<<<<<<< HEAD
 import * as SecureStore from 'expo-secure-store';
 
 import { authentificationService } from "../../service/authentification";
+=======
+>>>>>>> 5fb8671d14ad796f07910ea0d1eb7c67f15e66cb
 
 export const Login: React.VFC<any> = ({ navigation }) => {
     let [usernameOrEmail, onChangeUsernameOrEmail] = React.useState('');
@@ -15,6 +18,7 @@ export const Login: React.VFC<any> = ({ navigation }) => {
     let [isPasswordError, changeIsPasswordError] = React.useState(false);
 
     const checkInfo = () => {
+<<<<<<< HEAD
         if (usernameOrEmail === '') {
             changeUsernameOrEmailError("The username or email can't be empty");
             changeIsUsenameOrEmailError(true);
@@ -64,6 +68,14 @@ export const Login: React.VFC<any> = ({ navigation }) => {
         });
     }
 
+=======
+        if (isUsernameOrEmailError || isPasswordError) {
+            return false;
+        }
+        return true;
+    };
+
+>>>>>>> 5fb8671d14ad796f07910ea0d1eb7c67f15e66cb
     return <View style={styles.background}>
         <View style={{alignItems: 'center'}}>
             <Image style={styles.logo} source={require('../../assets/Instagram_icon.png')}/>
