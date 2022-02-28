@@ -16,9 +16,14 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 
 export const TextInputField: React.VFC<{name: string, value: string, onChangeText: any, errorMsg: string, isError: boolean, isHidden: boolean}> = ({name, value, onChangeText, errorMsg, isError, isHidden}) => {
     if (isError) {
+        if (errorMsg !== "") {
+            return <View style={styles.container}>
+                <TextInput style={styles.inputError} value={value} onChangeText={onChangeText} placeholder={name} placeholderTextColor='red' secureTextEntry={isHidden}/>
+                <Text style={styles.textError}>{errorMsg}</Text>
+            </View>
+        }
         return <View style={styles.container}>
             <TextInput style={styles.inputError} value={value} onChangeText={onChangeText} placeholder={name} placeholderTextColor='red' secureTextEntry={isHidden}/>
-            <Text style={styles.textError}>{errorMsg}</Text>
         </View>
     }
     return <View style={styles.container}>

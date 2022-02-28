@@ -2,6 +2,9 @@ import React from "react";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Switch } from "react-native";
 import { TextInputField } from "../../component/TextInputField";
+import * as SecureStore from 'expo-secure-store';
+
+import { authentificationService } from "../../service/authentification/";
 
 export const Register: React.VFC<any> = ({ navigation }) => {
     let [username, onChangeUsername] = React.useState('');
@@ -52,8 +55,60 @@ export const Register: React.VFC<any> = ({ navigation }) => {
         if (isUsernameError || isEmailError || isPasswordError || isCheckPasswordError) {
             return false;
         }
-        return true;
+        return register();
     };
+
+    const register = () => {
+        authentificationService.register(username, email, password, isPrivate)
+        .then(errorOrAccount => {
+            errorOrAccount.cata(
+                (err) => {
+                    if (err[0].message === "error.register.username.used") {
+                        changeUsernameError("username already used");
+                        changeIsUsernameError(true);
+                        changeEmailError("");
+                        changeIsEmailError(false);
+                        changePasswordError("");
+                        changeIsPasswordError(false);
+                        changeCheckPasswordError("");
+                        changeIsCheckPasswordError(false);
+                    } else if (err[0].message === "error.register.email.used") {
+                        changeUsernameError("");
+                        changeIsUsernameError(false);
+                        changeEmailError("email already used");
+                        changeIsEmailError(true);
+                        changePasswordError("");
+                        changeIsPasswordError(false);
+                        changeCheckPasswordError("");
+                        changeIsCheckPasswordError(false);
+                    } else {
+                        changeUsernameError("");
+                        changeIsUsernameError(true);
+                        changeEmailError("");
+                        changeIsEmailError(true);
+                        changePasswordError("");
+                        changeIsPasswordError(true);
+                        changeCheckPasswordError("Something went wrong, retry later");
+                        changeIsCheckPasswordError(true);
+                    }
+                },
+                (res) => {
+                    authentificationService.login(res.username, password)
+                    .then(errorOrToken => {
+                        errorOrToken.cata(
+                            (err) => {
+
+                            },
+                            (res2) => {
+                                SecureStore.setItemAsync('bearer_token', res2.token);
+                                navigation.navigate('Home');
+                            }
+                        )
+                    });
+                }
+            )
+        });
+    }
 
     return <View style={styles.background}>
         <View style={{alignItems: 'center'}}>

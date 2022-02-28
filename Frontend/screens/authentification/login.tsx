@@ -2,6 +2,9 @@ import React from "react";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { TextInputField } from "../../component/TextInputField";
+import * as SecureStore from 'expo-secure-store';
+
+import { authentificationService } from "../../service/authentification";
 
 export const Login: React.VFC<any> = ({ navigation }) => {
     let [usernameOrEmail, onChangeUsernameOrEmail] = React.useState('');
@@ -12,11 +15,54 @@ export const Login: React.VFC<any> = ({ navigation }) => {
     let [isPasswordError, changeIsPasswordError] = React.useState(false);
 
     const checkInfo = () => {
+        if (usernameOrEmail === '') {
+            changeUsernameOrEmailError("The username or email can't be empty");
+            changeIsUsenameOrEmailError(true);
+        } else {
+            changeIsUsenameOrEmailError(false);
+        }
+        if (password === '') {
+            changePasswordError("The password can't be empty");
+            changeIsPasswordError(true);
+        } else {
+            changeIsPasswordError(false);
+        }
         if (isUsernameOrEmailError || isPasswordError) {
             return false;
         }
-        return true;
+        return login();
     };
+
+    const login = () => {
+        authentificationService.login(usernameOrEmail, password)
+        .then((tokenOrError) => {
+            tokenOrError.cata(
+                (err) => {
+                    console.log(err);
+                    if (err[0].message === "error.login.account") {
+                        changeUsernameOrEmailError("This username is invalid");
+                        changeIsUsenameOrEmailError(true);
+                        changePasswordError("");
+                        changeIsPasswordError(false);
+                    } else if (err[0].message === "error.login.password") {
+                        changeUsernameOrEmailError("");
+                        changeIsUsenameOrEmailError(false);
+                        changePasswordError("Invalid password");
+                        changeIsPasswordError(true);
+                    } else {
+                        changeUsernameOrEmailError("");
+                        changeIsUsenameOrEmailError(true);
+                        changePasswordError("Something went wrong, retry later");
+                        changeIsPasswordError(true);
+                    }
+                },
+                (res) => {
+                    SecureStore.setItemAsync('bearer_token', res.token);
+                    navigation.navigate('Home');
+                }
+            )
+        });
+    }
 
     return <View style={styles.background}>
         <View style={{alignItems: 'center'}}>
