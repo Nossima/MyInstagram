@@ -11,6 +11,7 @@ export class FakeRequest {
   body: Object;
   params: core.ParamsDictionary;
   user: Object;
+  file: any;
 
   constructor(body: Object = {}, params: core.ParamsDictionary = {}, user: Object = {}) {
     this.body = body;
@@ -36,7 +37,8 @@ export interface UserAuth {
 }
 
 export interface CustomRequest extends Request {
-  user?: UserAuth
+  user?: UserAuth,
+  file: any
 }
 
 export type APIRequest = (req: CustomRequest | FakeRequest) => Promise<Result>;

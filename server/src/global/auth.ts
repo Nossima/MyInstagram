@@ -7,6 +7,7 @@ import {
 } from 'global/api';
 
 export const verifyToken = (req: CustomRequest, res: Response, next: any): any => {
+  console.log(req.body);
   try {
     const token = req.headers.authorization.toString();
 
