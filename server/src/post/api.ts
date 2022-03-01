@@ -47,14 +47,15 @@ class PostAPI {
         page: yup.number().required('error.page.required'),
         date: yup.number().required('error.date.required')
       })
-    )(req.params)((body) =>
-      this.getFeed(
+    )(req.query)((body) =>{
+      console.log(body)
+      return this.getFeed(
         body,
         req.user as UserAuth
       ).then((posts) =>
         Ok({ posts })
       )
-    );
+    });
 }
 
 export default PostAPI;

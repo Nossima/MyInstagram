@@ -61,7 +61,7 @@ export const Login: React.VFC<any> = ({ navigation }) => {
                     }
                 },
                 (res) => {
-                    save('bearer_token', res.token);
+                    save('bearer_token', res);
                     navigation.navigate('Home');
                 }
             )

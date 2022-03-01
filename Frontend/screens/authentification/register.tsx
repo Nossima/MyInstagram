@@ -21,6 +21,10 @@ export const Register: React.VFC<any> = ({ navigation }) => {
     let [isPasswordError, changeIsPasswordError] = React.useState(false);
     let [isCheckPasswordError, changeIsCheckPasswordError] = React.useState(false);
 
+    async function save(key: string, value: any) {
+        await SecureStore.setItemAsync(key, value);
+    }
+
     const checkInfo = () => {
         if (username === '') {
             changeUsernameError("The username can't be empty");
@@ -100,7 +104,7 @@ export const Register: React.VFC<any> = ({ navigation }) => {
 
                             },
                             (res2) => {
-                                SecureStore.setItemAsync('bearer_token', res2.token);
+                                save('bearer_token', res2);
                                 navigation.navigate('Home');
                             }
                         )

@@ -6,6 +6,7 @@ import { Post } from '../component/Post';
 import { feedService } from '../service/feed';
 
 export const HomeScreen: React.VFC<any> = ({ navigation }) => {
+	let token: any;
 	const img = { uri: "https://reactnative.dev/img/tiny_logo.png" };
 
 	const feedData = [
@@ -20,17 +21,18 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 	}
 
 	useEffect(() => {
-		/*feedService.getToken()
+		feedService.getToken()
 		.then((res) => {
 			if (res === null) {
 				navigation.navigate('Login');
 			}
-		})*/
-		getFeed(1);
+			token = res;
+			getFeed(1);
+		})
 	}, []);
 
 	const getFeed = (number: number) => {
-		feedService.getfeed(1, 1)
+		feedService.getfeed(token, 1, 1)
 		.then((res) => {
 			console.log(res)
 		})

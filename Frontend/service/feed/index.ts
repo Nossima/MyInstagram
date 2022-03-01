@@ -26,8 +26,9 @@ async function getToken() {
     return res;
 }
 
-function getfeed(number: number, page: number, date: number = Date.now()) {
-    return API.get<ResultContent<GetFeed>>('/getfeed', {params: {number, page, date}})
+function getfeed(token: string, number: number, page: number, date: number = Date.now()) {
+    console.log(token)
+    return API.get<ResultContent<GetFeed>>('/getFeed?number=10&page=0&date=0', {headers: {'Authorization': 'Bearer ' + token}, })
     .then(parseAxiosDataOrError)
     .catch((e) => catchAxiosDataOrError<GetFeed>(e))
     .then(extractData<GetFeed, Post[]>((r) => {
