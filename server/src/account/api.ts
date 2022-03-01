@@ -30,12 +30,11 @@ class AccountAPI {
     validate(
       yup.object({
         username: yup.string().required('error.username.required'),
-        email: yup.string().email('error.email.invalid').required('error.email.required'),
-        password: yup.string().min(8, 'error.password.short').required('error.password.required'),
-        birthDate: yup.number().positive('error.birthdate.invalid')
+        email: yup.string().required('error.email.required'),
+        password: yup.string().required('error.password.required')
       })
     )(req.body as Partial<Account>)((body) =>
-      this.createAccount(
+        this.createAccount(
         body as Account
       ).then((errorOrAccount) =>
         errorOrAccount.cata(
