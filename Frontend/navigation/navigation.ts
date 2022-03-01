@@ -3,5 +3,7 @@ export enum Navigation {
     Home = 'Home',
     Profile = 'Profile',
     Login = 'Login',
-    Register = 'Register'
+    Register = 'Register',
+    InsertPicture = 'InsertPicture',
+    InsertPostInformation = 'Inser5tPostInformation',
 }
