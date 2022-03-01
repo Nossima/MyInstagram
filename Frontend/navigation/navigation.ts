@@ -3,5 +3,8 @@ export enum Navigation {
     Home = 'Home',
     Profile = 'Profile',
     Login = 'Login',
-    Register = 'Register'
+    Register = 'Register',
+    Dm = 'Dm',
+    CommentSection = 'CommentSection',
+    FriendRequestSection = 'FriendRequestSection'
 }
