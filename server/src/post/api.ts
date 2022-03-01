@@ -47,7 +47,7 @@ class PostAPI {
         page: yup.number().required('error.page.required'),
         date: yup.number().required('error.date.required')
       })
-    )(req.body as FeedParams)((body) =>
+    )(req.params)((body) =>
       this.getFeed(
         body,
         req.user as UserAuth

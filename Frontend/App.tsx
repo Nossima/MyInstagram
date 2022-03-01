@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import axios from 'axios';
 
 export let API = axios.create({
-    baseURL: "http://localhost:3000"
+    baseURL: "http://192.168.1.18:3000"
 });
 
 export default function App() {

@@ -14,6 +14,10 @@ export const Login: React.VFC<any> = ({ navigation }) => {
     let [isUsernameOrEmailError, changeIsUsenameOrEmailError] = React.useState(false);
     let [isPasswordError, changeIsPasswordError] = React.useState(false);
 
+    async function save(key: string, value: any) {
+        await SecureStore.setItemAsync(key, value);
+    }
+
     const checkInfo = () => {
         if (usernameOrEmail === '') {
             changeUsernameOrEmailError("The username or email can't be empty");
@@ -57,7 +61,7 @@ export const Login: React.VFC<any> = ({ navigation }) => {
                     }
                 },
                 (res) => {
-                    SecureStore.setItemAsync('bearer_token', res.token);
+                    save('bearer_token', res.token);
                     navigation.navigate('Home');
                 }
             )
