@@ -8,13 +8,13 @@ import { Login } from '../screens/authentification/login';
 import { Register } from '../screens/authentification/register';
 import { Dm } from '../screens/dm';
 import { CommentSection } from '../screens/commentSection';
-import { FriendRequestSection } from '../screens/FriendRequestSection';
+import { FriendRequestSection } from '../screens/friendRequestSection';
 
 const Stack = createNativeStackNavigator();
 
 export const AppStack = () => {
     return (
-        <Stack.Navigator initialRouteName={Navigation.Home} screenOptions={{ headerShown: false}}>
+        <Stack.Navigator initialRouteName={Navigation.Login} screenOptions={{ headerShown: false}}>
             <Stack.Screen name={Navigation.EditProfile} component={EditProfileScreen} />
             <Stack.Screen name={Navigation.Home} component={HomeScreen} />
             <Stack.Screen name={Navigation.Profile} component={ProfileScreen} />
