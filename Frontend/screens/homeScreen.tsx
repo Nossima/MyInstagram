@@ -24,7 +24,7 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 				<TouchableOpacity onPress={() => navigation.navigate('FriendRequestSection')}>
     				<Image style={styles.icImg} source={require('../assets/heart.png')} />
 				</TouchableOpacity>
-				<TouchableOpacity onPress={() => navigation.navigate('Dm')}>
+				<TouchableOpacity onPress={() => navigation.navigate('DmList')}>
     				<Image style={styles.icImg} source={require('../assets/letter.png')} />
 				</TouchableOpacity>
 			</View>

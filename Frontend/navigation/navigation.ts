@@ -4,7 +4,9 @@ export enum Navigation {
     Profile = 'Profile',
     Login = 'Login',
     Register = 'Register',
-    Dm = 'Dm',
+    DmList = 'DmList',
+    UserList = 'UserList',
+    DmConversation = 'DmConversation',
     CommentSection = 'CommentSection',
     FriendRequestSection = 'FriendRequestSection'
 }
