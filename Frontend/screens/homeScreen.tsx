@@ -7,17 +7,11 @@ import { feedService } from '../service/feed';
 
 export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 	let token: any;
-	const img = { uri: "https://reactnative.dev/img/tiny_logo.png" };
 
-	const feedData = [
-		<Post creatorImg={img} creatorTxt="creator1" img={img} name="image1" description="lorem ipsum trop bien on est la et voila"/>,
-		<Post creatorImg={img} creatorTxt="creator2" img={img} name="image2" description="lorem ipsum trop bien on est la et voila"/>,
-		<Post creatorImg={img} creatorTxt="creator3" img={img} name="image3" description="lorem ipsum trop bien on est la et voila"/>,
-		<Post creatorImg={img} creatorTxt="creator4" img={img} name="image4" description="lorem ipsum trop bien on est la et voila"/>
-	];
+	let Data: any = [];
 
 	const renderItem = (data: any) => {
-		return <Post creatorImg={data.item.props.creatorImg} creatorTxt={data.item.props.creatorTxt} img={data.item.props.imgUrl} name={data.item.props.name} description={data.item.props.description}/>
+		return <Post creatorImg={data.item.props.creatorImg} creatorTxt={data.item.props.creatorTxt} img={data.item.props.imgUrl} caption={data.item.props.caption} isLike={data.item.props.isLike} comments={data.item.props.comments}/>
 	}
 
 	useEffect(() => {
@@ -33,9 +27,23 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 
 	const getFeed = (number: number) => {
 		feedService.getfeed(token, 1, 1)
-		.then((res) => {
-			console.log(res)
+		.then((arrayOrError) => {
+			arrayOrError.cata(
+				(err) => {
+					console.log('such a quiet place');
+				},
+				(res) => {
+					console.log(res);
+					for (var i = 0; i < res.length; i++) {
+						Data.push(<Post creatorImg={res[i].author} creatorTxt={res[i].author} img={res[i].image.data} caption={res[i].title} isLike={isLike(res[i].isLike)} comments={res[i].comments}/>);
+					}
+				}
+			)
 		})
+	}
+
+	const isLike = (arr: string[]) => {
+		return true;
 	}
 
 	return <View style={styles.background}>
@@ -50,7 +58,7 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 				</TouchableOpacity>
 			</View>
 		</View>
-		<FlatList data={feedData} renderItem={(item: any) => renderItem(item)}/>
+		<FlatList data={Data} renderItem={(item: any) => renderItem(item)}/>
 		<View style={styles.navBarBottom}>
 			<TouchableOpacity onPress={() => navigation.navigate('Home')}>
     			<Image style={styles.icImg} source={require('../assets/home_filled.png')} />

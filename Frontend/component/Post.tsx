@@ -2,9 +2,10 @@ import React from "react";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import { feedService } from "../service/feed";
 
 
-export const Post: React.VFC<{creatorImg: any, creatorTxt: string, img: any, name: string, description: string}> = ({creatorImg, creatorTxt, img, name, description}) => {
+export const Post: React.VFC<{creatorImg: any, creatorTxt: string, img: any, caption: string, isLike: boolean, comments: Array<string>}> = ({creatorImg, creatorTxt, img, caption, isLike, comments}) => {
 	const navigation = useNavigation<any>();
 
     return <View>
@@ -14,18 +15,17 @@ export const Post: React.VFC<{creatorImg: any, creatorTxt: string, img: any, nam
 		</TouchableOpacity>
         <Image style={styles.img} source={require('../assets/event.jpg')}/>
 		<View style={styles.icView}>
-			<TouchableOpacity onPress={() => console.log('press')}>
-				<Image style={styles.icImg} source={require('../assets/heart.png')} />
+			<TouchableOpacity onPress={() => {
+                feedService.like(isLike);
+                isLike = !isLike;
+            }}>
+				<Image style={styles.icImg} source={isLike ? require('../assets/heart_filled.png') : require('../assets/heart.png')} />
 			</TouchableOpacity>
-			<TouchableOpacity onPress={() => navigation.navigate('CommentSection')}>
+			<TouchableOpacity onPress={() => navigation.navigate('CommentSection', { comments })}>
     			<Image style={styles.icImg} source={require('../assets/comment.png')} />
 			</TouchableOpacity>
-			<TouchableOpacity onPress={() => console.log('press')}>
-    			<Image style={styles.icImg} source={require('../assets/letter.png')} />
-			</TouchableOpacity>
 		</View>
-        <Text style={[styles.tWhite, styles.title]}>{name}</Text>
-        <Text style={[styles.tWhite, styles.description]}>{description}</Text>
+        <Text style={[styles.tWhite, styles.title]}>{caption}</Text>
     </View>
 }
 
@@ -54,13 +54,6 @@ const styles = StyleSheet.create({
     title: {
         marginLeft: wp(2),
         fontSize: hp(2)
-    },
-    description: {
-        marginLeft: wp(2),
-        marginRight: wp(2),
-        fontSize: hp(1.5),
-        color: 'rgb(160, 160, 160)',
-        marginBottom: hp(1)
     },
 	icView: {
 		display: 'flex',

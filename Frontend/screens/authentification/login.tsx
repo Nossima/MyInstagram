@@ -42,7 +42,6 @@ export const Login: React.VFC<any> = ({ navigation }) => {
         .then((tokenOrError) => {
             tokenOrError.cata(
                 (err) => {
-                    console.log(err);
                     if (err[0].message === "error.login.account") {
                         changeUsernameOrEmailError("This username is invalid");
                         changeIsUsenameOrEmailError(true);
