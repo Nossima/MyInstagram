@@ -10,7 +10,7 @@ export type GetFeed = (params: FeedParams, user: UserAuth) => Promise<Post[]>;
 const getFeed: GetFeed = (params: FeedParams, user: UserAuth) =>
   AccountModel.findOne({ _id: user.accountId }).exec()
     .then((account) => {
-      const posts: Post[] = [];
+      let posts: Post[] = [];
       const forEachPromise = account.following.map((followedUser) =>
         getPostsFromFollowedUser(followedUser)
           .then((userPosts) => {
@@ -18,7 +18,10 @@ const getFeed: GetFeed = (params: FeedParams, user: UserAuth) =>
           })
       );
       return Promise.all(forEachPromise)
-        .then(() => posts)
+        .then(() => {
+          posts = posts.filter((post) => post.date < params.date);
+          return posts.slice(params.page * params.number, (params.page + 1) * params.number);
+        })
         .catch((e) => {
           console.log(e);
           return [];

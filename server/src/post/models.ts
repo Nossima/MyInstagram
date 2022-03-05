@@ -5,7 +5,8 @@ import * as mongoose from 'mongoose';
 
 export interface FeedParams {
   number: number,
-  page: number
+  page: number,
+  date: number
 }
 
 export interface MulterFile {
