@@ -20,14 +20,15 @@ setLocale({
 });
 
 export const validate = <T extends ObjectShape>(shape: OptionalObjectSchema<T>) => (object: Object) => (ifValid: (data: Asserts<typeof shape>) => Promise<Result>) =>
-  shape
+  {console.log(object)
+    return shape
     .validate(object, { abortEarly: false })
     .then((data) => ifValid(data))
     .catch((errors: ValidationError) =>
       BadRequest(
         _.flatMap(parseYupError)(errors.inner)
       )
-    );
+    );}
 
 export const parseYupError = (yupError: ValidationError): Error[] =>
   yupError.errors.map((err) =>

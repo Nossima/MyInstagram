@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { Post } from '../component/Post';
 
+import { feedService } from '../service/feed';
+
 export const HomeScreen: React.VFC<any> = ({ navigation }) => {
+	let token: any;
 	const img = { uri: "https://reactnative.dev/img/tiny_logo.png" };
 
 	const feedData = [
@@ -15,6 +18,24 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 
 	const renderItem = (data: any) => {
 		return <Post creatorImg={data.item.props.creatorImg} creatorTxt={data.item.props.creatorTxt} img={data.item.props.imgUrl} name={data.item.props.name} description={data.item.props.description}/>
+	}
+
+	useEffect(() => {
+		feedService.getToken()
+		.then((res) => {
+			if (res === null) {
+				navigation.navigate('Login');
+			}
+			token = res;
+			getFeed(1);
+		})
+	}, []);
+
+	const getFeed = (number: number) => {
+		feedService.getfeed(token, 1, 1)
+		.then((res) => {
+			console.log(res)
+		})
 	}
 
 	return <View style={styles.background}>
