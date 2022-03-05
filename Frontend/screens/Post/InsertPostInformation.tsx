@@ -25,7 +25,7 @@ export const InsertPostInformation: React.VFC<{ navigation: any, selectedImage: 
         <ScrollView  style={styles.background}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={backToPictureSelection}>
-                    <Image source={require("../../assets/Camera/check.png")} style={styles.icone} />
+                    <Image source={require("../../assets/fleche.png")} style={styles.icone} />
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', alignContent: 'flex-end' }}>
                     <Text style={[styles.title, { width: wp(70) }]}>{"New post"}</Text>
