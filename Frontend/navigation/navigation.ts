@@ -8,5 +8,6 @@ export enum Navigation {
     UserList = 'UserList',
     DmConversation = 'DmConversation',
     CommentSection = 'CommentSection',
-    FriendRequestSection = 'FriendRequestSection'
+    FriendRequestSection = 'FriendRequestSection',
+    CreatePost = 'CreatePost'
 }

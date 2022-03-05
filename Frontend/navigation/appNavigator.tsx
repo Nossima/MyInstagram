@@ -11,6 +11,7 @@ import { UserList } from '../screens/userList';
 import { DmConversation } from '../screens/dmConversation';
 import { CommentSection } from '../screens/commentSection';
 import { FriendRequestSection } from '../screens/friendRequestSection';
+import { CreatePost } from '../screens/Post/CreatePost';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ export const AppStack = () => {
             <Stack.Screen name={Navigation.UserList} component={UserList}/>
             <Stack.Screen name={Navigation.CommentSection} component={CommentSection}/>
             <Stack.Screen name={Navigation.FriendRequestSection} component={FriendRequestSection}/>
+            <Stack.Screen name={Navigation.CreatePost} component={CreatePost}/>
         </Stack.Navigator>
     );
 }
