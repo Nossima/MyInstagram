@@ -33,6 +33,9 @@ const postAPI = new PostAPI();
 const postAPIRoutes = (router: Router) => {
   router.post('/newPost', verifyToken, upload.single('image'), Endpoint(postAPI.newPost));
   router.get('/getFeed', verifyToken, Endpoint(postAPI.getUserFeed));
+  router.post('/newComment', verifyToken, Endpoint(postAPI.addComment));
+  router.get('/getComments', verifyToken, Endpoint(postAPI.getComments));
+  router.put('/like', verifyToken, Endpoint(postAPI.likeOrUnlike));
 };
 
 export default postAPIRoutes;

@@ -20,7 +20,8 @@ const createNewPost: CreatePost = (title: string, image: MulterFile, user: UserA
     image: {
       data: fs.readFileSync('./uploads/' + image.filename ),
       contentType: image.encoding
-    }
+    },
+    likes: []
   };
   post.author = user.accountId;
   const newPost = new PostModel(post);

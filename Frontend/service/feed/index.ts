@@ -14,7 +14,7 @@ interface Post {
     comments: string[]
 }
 
-type GetFeed = { feed: Post[] }
+type GetFeed = { posts: Post[] }
 
 export const feedService = {
     getToken,
@@ -32,6 +32,6 @@ function getfeed(token: string, number: number, page: number, date: number = Dat
     .then(parseAxiosDataOrError)
     .catch((e) => catchAxiosDataOrError<GetFeed>(e))
     .then(extractData<GetFeed, Post[]>((r) => {
-        return r.feed;
+        return r.posts;
     }));
 }

@@ -33,6 +33,7 @@ app.listen(port, () => {
       delete ret.__v;
     }
   });
+  mongoose.set('useFindAndModify', false);
 
   mongoose.connect(process.env.DB_URL, {
     useCreateIndex: true,

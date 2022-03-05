@@ -29,6 +29,7 @@ export interface Post {
   },
   date: number,
   author: string,
+  likes: Array<string>,
   comments: Array<string>
 }
 
@@ -40,7 +41,27 @@ export const PostSchema = new Schema<Post>({
   },
   date: { type: Number },
   author: { type: String },
+  likes: { type: [String] },
   comments: { type: [String] }
 });
 
 export const PostModel: Model<Post> = mongoose.model<Post>('Post', PostSchema);
+
+export interface Comment {
+  id: string,
+  postId: string,
+  commentId: string,
+  text: string,
+  likes: Array<string>,
+  comments: Array<string>
+}
+
+export const CommentSchema: Schema<Comment> = new Schema<Comment>({
+  postId: { type: String },
+  commentId: { type: String },
+  text: { type: String },
+  likes: { type: [String] },
+  comments: { type: [String] }
+});
+
+export const CommentModel: Model<Comment> = mongoose.model<Comment>('Comment', CommentSchema);

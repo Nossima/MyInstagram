@@ -34,7 +34,7 @@ class AccountAPI {
         password: yup.string().required('error.password.required')
       })
     )(req.body as Partial<Account>)((body) =>
-        this.createAccount(
+      this.createAccount(
         body as Account
       ).then((errorOrAccount) =>
         errorOrAccount.cata(

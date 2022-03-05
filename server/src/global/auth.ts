@@ -7,7 +7,6 @@ import {
 } from 'global/api';
 
 export const verifyToken = (req: CustomRequest, res: Response, next: any): any => {
-  console.log(req)
   try {
     const token = req.headers.authorization.toString();
 
@@ -18,7 +17,6 @@ export const verifyToken = (req: CustomRequest, res: Response, next: any): any =
   } catch {
     return res.status(401).send('Invalid Token');
   }
-  console.log('res')
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   return next();
 };
