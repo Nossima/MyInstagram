@@ -1,31 +1,13 @@
 import React from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { View, StyleSheet, FlatList, TouchableOpacity, Image, TextInput } from 'react-native';
-import { Dm } from '../component/Dm';
 import { User } from '../component/User';
+import { searchService } from '../service/search';
 
 export const SearchScreen: React.VFC<any> = ({ navigation }) => {
     const [input, onChangeInput] = React.useState('');
+    const [data, ChangeData] : any[] = React.useState();
 	const img = { uri: "https://reactnative.dev/img/tiny_logo.png" };
-
-    const Data = [
-        <User usrImg={{}} usrName="Martin"/>,
-        <User usrImg={{}} usrName="Bernard "/>,
-        <User usrImg={{}} usrName="Thomas "/>,
-        <User usrImg={{}} usrName="Petit "/>,
-        <User usrImg={{}} usrName="Robert "/>,
-        <User usrImg={{}} usrName="Richard "/>,
-        <User usrImg={{}} usrName="Durand "/>,
-        <User usrImg={{}} usrName="Dubois"/>,
-        <User usrImg={{}} usrName="Moreau"/>,
-        <User usrImg={{}} usrName="Laurent"/>,
-        <User usrImg={{}} usrName="Simon"/>,
-        <User usrImg={{}} usrName="Michel"/>,
-        <User usrImg={{}} usrName="Lefebre"/>,
-        <User usrImg={{}} usrName="Leroy"/>,
-        <User usrImg={{}} usrName="Roux"/>,
-        <User usrImg={{}} usrName="David"/>
-	];
 
 	const renderItem = (data: any) => {
         if (input !== '' && data.item.props.usrName.includes(input)) {
@@ -36,12 +18,27 @@ export const SearchScreen: React.VFC<any> = ({ navigation }) => {
         return <View/>;
 	}
     
-    const submit = (e: any) => {
+    const submit = async (e: any) => {
+        searchService.getListUser()
+        .then((accountListOrError) => {
+            accountListOrError.cata(
+                (err) => {
+                    console.log(err);
+                },
+                (res) => {
+                    let newData: any[] = [];
+                    for (var i = 0; i < res.length; i++) {
+                        newData.push(<User usrImg={res[i].avatar} usrName={res[i].username}/>)
+                    }
+                    ChangeData(newData);
+                }
+            )
+        })
     }
 
 	return <View style={styles.background}>
         <TextInput style={styles.searchInput} value={input} onChangeText={onChangeInput} placeholder="Search..." placeholderTextColor='white' onSubmitEditing={submit}/>
-		<FlatList data={Data} renderItem={(item: any) =>  renderItem(item)}/>
+		<FlatList data={data} renderItem={(item: any) =>  renderItem(item)}/>
 		<View style={styles.navBarBottom}>
 			<TouchableOpacity onPress={() => navigation.navigate('Home')}>
     			<Image style={styles.icImg} source={require('../assets/home.png')} />

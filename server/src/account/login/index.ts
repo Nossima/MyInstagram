@@ -42,7 +42,7 @@ const checkPassword = (
             const token = jwt.sign(
               { accountId: account.id, email: account.email },
               process.env.TOKEN_KEY,
-              { expiresIn: '2h' }
+              { expiresIn: '365d' }
             );
             return Right(token);
           } else
