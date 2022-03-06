@@ -15,6 +15,7 @@ import getAccountByUsername, { GetAccountByUsername } from 'account/get/byUserna
 import login, { Login } from 'account/login';
 import { error } from 'global/error';
 import followToggle, { FollowToggle } from 'account/follow';
+import acceptFriendRequest, { AcceptFriendRequest } from 'account/follow/acceptFriendRequest';
 
 class AccountAPI {
   private createAccount: CreateAccount;
@@ -22,6 +23,7 @@ class AccountAPI {
   private listAccount: GetAccountList;
   private getAccountByUsername: GetAccountByUsername;
   private toggleFollow: FollowToggle;
+  private acceptFollow: AcceptFriendRequest;
 
   constructor() {
     this.createAccount = createNewAccount;
@@ -29,6 +31,7 @@ class AccountAPI {
     this.listAccount = getAccountList;
     this.getAccountByUsername = getAccountByUsername;
     this.toggleFollow = followToggle;
+    this.acceptFollow = acceptFriendRequest;
   }
 
   register: APIRequest = (req): Promise<Result> =>
@@ -72,6 +75,26 @@ class AccountAPI {
     )(req.params)(() =>
       this.toggleFollow(
         req.params.id,
+        req.user as UserAuth
+      )
+        .then((maybeError) =>
+          maybeError.cata(
+            () => Ok(),
+            (e) => BadRequest(e)
+          )
+        )
+    );
+
+  acceptFriend: APIRequest = (req): Promise<Result> =>
+    validate(
+      yup.object({
+        id: yup.string().required('error.id.required'),
+        accept: yup.boolean().required('error.accept.required')
+      })
+    )(req.body)((body) =>
+      this.acceptFollow(
+        body.id,
+        body.accept,
         req.user as UserAuth
       )
         .then((maybeError) =>

@@ -15,6 +15,8 @@ const accountAPIRoutes = (router: Router) => {
 
   router.put('/:id/follow', verifyToken, verifyUser, Endpoint(accountAPI.toggleUserFollow));
 
+  router.put('/friendRequest', verifyToken, verifyUser, Endpoint(accountAPI.acceptFriend));
+
   router.post('/account/delete', verifyToken, Endpoint(accountAPI.getByUsername));
 
   router.get('/account/list', verifyToken, verifyAdmin, Endpoint(accountAPI.list));
