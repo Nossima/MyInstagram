@@ -1,4 +1,6 @@
-import { APIRequest } from 'global/api';
+import {
+  APIRequest, UserAuth
+} from 'global/api';
 import {
   BadRequest, NotFound,
   Ok,
@@ -12,18 +14,21 @@ import getAccountList, { GetAccountList } from 'account/list';
 import getAccountByUsername, { GetAccountByUsername } from 'account/get/byUsername';
 import login, { Login } from 'account/login';
 import { error } from 'global/error';
+import followToggle, { FollowToggle } from 'account/follow';
 
 class AccountAPI {
   private createAccount: CreateAccount;
   private accountLogin: Login;
   private listAccount: GetAccountList;
   private getAccountByUsername: GetAccountByUsername;
+  private toggleFollow: FollowToggle;
 
   constructor() {
     this.createAccount = createNewAccount;
     this.accountLogin = login;
     this.listAccount = getAccountList;
     this.getAccountByUsername = getAccountByUsername;
+    this.toggleFollow = followToggle;
   }
 
   register: APIRequest = (req): Promise<Result> =>
@@ -59,6 +64,22 @@ class AccountAPI {
           (token) => Ok({ token })
         )
       )
+    );
+
+  toggleUserFollow: APIRequest = (req): Promise<Result> =>
+    validate(
+      yup.object({ id: yup.string().required('error.id.required') })
+    )(req.params)(() =>
+      this.toggleFollow(
+        req.params.id,
+        req.user as UserAuth
+      )
+        .then((maybeError) =>
+          maybeError.cata(
+            () => Ok(),
+            (e) => BadRequest(e)
+          )
+        )
     );
 
   list: APIRequest = (): Promise<Result> =>
