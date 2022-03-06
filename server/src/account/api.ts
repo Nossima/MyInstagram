@@ -18,6 +18,8 @@ import followToggle, { FollowToggle } from 'account/follow';
 import acceptFriendRequest, { AcceptFriendRequest } from 'account/follow/acceptFriendRequest';
 import getFriendRequests, { GetFriendRequests } from 'account/follow/getFriendRequests';
 import editAccount, { EditAccount } from 'account/edit';
+import getFollowers, { GetFollowers } from 'account/follow/getFollowers';
+import getFollowed, { GetFollowed } from 'account/follow/getFollowed';
 
 class AccountAPI {
   private createAccount: CreateAccount;
@@ -26,6 +28,8 @@ class AccountAPI {
   private getAccountByUsername: GetAccountByUsername;
   private toggleFollow: FollowToggle;
   private listFriendRequests: GetFriendRequests;
+  private listFollowingAccounts: GetFollowers;
+  private listFollowedAccounts: GetFollowed;
   private acceptFollow: AcceptFriendRequest;
   private accountEdit: EditAccount;
 
@@ -36,6 +40,8 @@ class AccountAPI {
     this.getAccountByUsername = getAccountByUsername;
     this.toggleFollow = followToggle;
     this.listFriendRequests = getFriendRequests;
+    this.listFollowingAccounts = getFollowers;
+    this.listFollowedAccounts = getFollowed;
     this.acceptFollow = acceptFriendRequest;
     this.accountEdit = editAccount;
   }
@@ -93,6 +99,14 @@ class AccountAPI {
 
   listRequests: APIRequest = (req): Promise<Result> =>
     this.listFriendRequests(req.user as UserAuth)
+      .then((listAccounts) => Ok(listAccounts));
+
+  listFollowers: APIRequest = (req): Promise<Result> =>
+    this.listFollowingAccounts(req.user as UserAuth)
+      .then((listAccounts) => Ok(listAccounts));
+
+  listFollowing: APIRequest = (req): Promise<Result> =>
+    this.listFollowedAccounts(req.user as UserAuth)
       .then((listAccounts) => Ok(listAccounts));
 
   acceptFriend: APIRequest = (req): Promise<Result> =>
