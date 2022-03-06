@@ -51,6 +51,17 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 			</View>
 		</View>
 		<FlatList data={feedData} renderItem={(item: any) => renderItem(item)}/>
+		<View style={styles.navBarBottom}>
+			<TouchableOpacity onPress={() => navigation.navigate('Home')}>
+    			<Image style={styles.icImg} source={require('../assets/home_filled.png')} />
+			</TouchableOpacity>
+			<TouchableOpacity onPress={() => navigation.navigate('Home')}>
+    			<Image style={styles.icImg} source={require('../assets/zoom.png')} />
+			</TouchableOpacity>
+			<TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+    			<Image style={styles.icImg} source={require('../assets/profileImage.png')} />
+			</TouchableOpacity>
+		</View>
 	</View>
 }
 
@@ -83,6 +94,11 @@ const styles = StyleSheet.create({
 		width: wp(8),
 		height: hp(8),
 		resizeMode: 'center'
+	},
+	navBarBottom: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-around',
 	},
     tWhite: {
         color: 'white'
