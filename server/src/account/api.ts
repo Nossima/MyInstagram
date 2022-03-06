@@ -16,6 +16,7 @@ import login, { Login } from 'account/login';
 import { error } from 'global/error';
 import followToggle, { FollowToggle } from 'account/follow';
 import acceptFriendRequest, { AcceptFriendRequest } from 'account/follow/acceptFriendRequest';
+import getFriendRequests, { GetFriendRequests } from 'account/follow/getFriendRequests';
 
 class AccountAPI {
   private createAccount: CreateAccount;
@@ -23,6 +24,7 @@ class AccountAPI {
   private listAccount: GetAccountList;
   private getAccountByUsername: GetAccountByUsername;
   private toggleFollow: FollowToggle;
+  private listFriendRequests: GetFriendRequests;
   private acceptFollow: AcceptFriendRequest;
 
   constructor() {
@@ -31,6 +33,7 @@ class AccountAPI {
     this.listAccount = getAccountList;
     this.getAccountByUsername = getAccountByUsername;
     this.toggleFollow = followToggle;
+    this.listFriendRequests = getFriendRequests;
     this.acceptFollow = acceptFriendRequest;
   }
 
@@ -84,6 +87,10 @@ class AccountAPI {
           )
         )
     );
+
+  listRequests: APIRequest = (req): Promise<Result> =>
+    this.listFriendRequests(req.user as UserAuth)
+      .then((listAccounts) => Ok(listAccounts));
 
   acceptFriend: APIRequest = (req): Promise<Result> =>
     validate(
