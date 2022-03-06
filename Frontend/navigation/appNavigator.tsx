@@ -6,6 +6,7 @@ import { HomeScreen } from '../screens/homeScreen';
 import { ProfileScreen } from '../screens/profileScreen';
 import { Login } from '../screens/authentification/login';
 import { Register } from '../screens/authentification/register';
+import { OnBoardingScreen } from '../screens/onBoarding';
 import { DmList } from '../screens/dmList';
 import { UserList } from '../screens/userList';
 import { DmConversation } from '../screens/dmConversation';
@@ -18,6 +19,7 @@ const Stack = createNativeStackNavigator();
 export const AppStack = () => {
     return (
         <Stack.Navigator initialRouteName={Navigation.Home} screenOptions={{ headerShown: false}}>
+            <Stack.Screen name={Navigation.OnBoarding} component={OnBoardingScreen} />
             <Stack.Screen name={Navigation.EditProfile} component={EditProfileScreen} />
             <Stack.Screen name={Navigation.Home} component={HomeScreen} />
             <Stack.Screen name={Navigation.Profile} component={ProfileScreen} />
