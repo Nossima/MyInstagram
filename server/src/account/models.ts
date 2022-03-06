@@ -65,3 +65,8 @@ AccountSchema.pre('save', function (next) {
 });
 
 export const AccountModel: Model<Account> = mongoose.model<Account>('Account', AccountSchema);
+
+export interface LoginResult {
+  token: string,
+  username: string
+}
