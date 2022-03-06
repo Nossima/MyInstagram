@@ -24,6 +24,8 @@ const accountAPIRoutes = (router: Router) => {
   router.get('/account/list', verifyToken, verifyAdmin, Endpoint(accountAPI.list));
 
   router.get('/account/:username', verifyToken, verifyUser, Endpoint(accountAPI.getByUsername));
+
+  router.put('/account/edit', verifyToken, verifyUser, Endpoint(accountAPI.edit));
 };
 
 export default accountAPIRoutes;

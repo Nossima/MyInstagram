@@ -17,6 +17,7 @@ import { error } from 'global/error';
 import followToggle, { FollowToggle } from 'account/follow';
 import acceptFriendRequest, { AcceptFriendRequest } from 'account/follow/acceptFriendRequest';
 import getFriendRequests, { GetFriendRequests } from 'account/follow/getFriendRequests';
+import editAccount, { EditAccount } from 'account/edit';
 
 class AccountAPI {
   private createAccount: CreateAccount;
@@ -26,6 +27,7 @@ class AccountAPI {
   private toggleFollow: FollowToggle;
   private listFriendRequests: GetFriendRequests;
   private acceptFollow: AcceptFriendRequest;
+  private accountEdit: EditAccount;
 
   constructor() {
     this.createAccount = createNewAccount;
@@ -35,6 +37,7 @@ class AccountAPI {
     this.toggleFollow = followToggle;
     this.listFriendRequests = getFriendRequests;
     this.acceptFollow = acceptFriendRequest;
+    this.accountEdit = editAccount;
   }
 
   register: APIRequest = (req): Promise<Result> =>
@@ -132,6 +135,25 @@ class AccountAPI {
             (account) => Ok({ account })
           )
         )
+    );
+
+  edit: APIRequest = (req): Promise<Result> =>
+    validate(
+      yup.object({
+        username: yup.string().optional(),
+        bio: yup.string().optional(),
+        private: yup.boolean().optional()
+      })
+    )(req.body as Partial<Account>)((body) =>
+      this.accountEdit(
+        body as Account,
+        req.user as UserAuth
+      ).then((errorOrAccount) =>
+        errorOrAccount.cata(
+          BadRequest,
+          (account) => Ok({ account })
+        )
+      )
     );
 }
 
