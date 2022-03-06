@@ -18,6 +18,10 @@ export const CommentSection: React.VFC<any> = ({ navigation }) => {
 	const renderItem = (data: any) => {
 		return <Comment creatorImg={data.item.props.creatorImg} creatorTxt={data.item.props.creatorTxt} comment={data.item.props.comment}/>
 	}
+    
+    const submit = (e: any) => {
+        onChangeCommentInput('');
+    }
 
 	return <View style={styles.background}>
         <View style={styles.header}>
@@ -29,10 +33,7 @@ export const CommentSection: React.VFC<any> = ({ navigation }) => {
         </View>
 		<FlatList data={feedData} renderItem={(item: any) => renderItem(item)}/>
         <View style={styles.inputView}>
-            <TextInput style={styles.input} value={commentInput} onChangeText={onChangeCommentInput} placeholder="Type a comment..." placeholderTextColor='rgba(85, 85, 85, 1)'/>
-            <TouchableOpacity onPress={() => console.log('press')}>
-                <Text style={[styles.tWhite, styles.submitComment]}>Comment</Text>
-            </TouchableOpacity>
+            <TextInput style={styles.input} value={commentInput} onChangeText={onChangeCommentInput} placeholder="Type a comment..." placeholderTextColor='rgba(85, 85, 85, 1)' onSubmitEditing={submit}/>
         </View>
 	</View>
 }
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: 'rgba(85, 85, 85, 1)',
         height: hp(5),
-        width: wp(72),
+        width: wp(96),
         color: 'white',
         paddingLeft: wp(1),
         paddingRight: wp(1),

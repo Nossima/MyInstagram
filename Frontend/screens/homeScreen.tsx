@@ -55,7 +55,7 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 			<TouchableOpacity onPress={() => navigation.navigate('Home')}>
     			<Image style={styles.icImg} source={require('../assets/home_filled.png')} />
 			</TouchableOpacity>
-			<TouchableOpacity onPress={() => navigation.navigate('Home')}>
+			<TouchableOpacity onPress={() => navigation.navigate('Search')}>
     			<Image style={styles.icImg} source={require('../assets/zoom.png')} />
 			</TouchableOpacity>
 			<TouchableOpacity onPress={() => navigation.navigate('Profile')}>
