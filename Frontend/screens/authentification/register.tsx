@@ -105,6 +105,7 @@ export const Register: React.VFC<any> = ({ navigation }) => {
                             },
                             (res2) => {
                                 save('bearer_token', res2);
+                                global.username = res.username;
                                 navigation.navigate('OnBoarding');
                             }
                         )

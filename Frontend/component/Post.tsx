@@ -8,11 +8,7 @@ export const Post: React.VFC<{creatorImg: any, creatorTxt: string, img: any, nam
 	const navigation = useNavigation<any>();
 
     return <View>
-<<<<<<< HEAD
-		<TouchableOpacity style={styles.creatorView} onPress={() => console.log('press')}>
-=======
         <TouchableOpacity style={styles.creatorView} onPress={() => navigation.navigate('Profile', { username: creatorTxt })}>
->>>>>>> profile
             <Image style={styles.creatorImg} source={require('../assets/profileImage.png')}/>
             <Text style={[styles.tWhite, styles.creatorTxt]}>{creatorTxt}</Text>
 		</TouchableOpacity>

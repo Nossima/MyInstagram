@@ -58,7 +58,7 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 			<TouchableOpacity onPress={() => navigation.navigate('Search')}>
     			<Image style={styles.icImg} source={require('../assets/zoom.png')} />
 			</TouchableOpacity>
-			<TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+			<TouchableOpacity onPress={() => navigation.navigate('Profile', { username: global.username })}>
     			<Image style={styles.icImg} source={require('../assets/profileImage.png')} />
 			</TouchableOpacity>
 		</View>

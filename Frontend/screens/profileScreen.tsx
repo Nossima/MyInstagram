@@ -122,10 +122,8 @@ export const ProfileScreen: React.VFC = () => {
 			.then((res) => {
 				res.cata(
 					(error) => {
-						console.log("error : " + error);
 					},
 					(response) => {
-						console.log(response);
 						let newTmpData = {
 							username: response.username,
 						};
@@ -145,7 +143,6 @@ export const ProfileScreen: React.VFC = () => {
 		return (<View></View>);
 	}
 	
-						console.log(data[0]);
 	return (
 		<View style={styles.background}>
 			{top(data[0])}

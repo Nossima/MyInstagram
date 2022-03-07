@@ -35,7 +35,6 @@ function register(username: string, email: string, password: string, isPrivate: 
     .then(parseAxiosDataOrError)
     .catch((e) => catchAxiosDataOrError<GetAccount>(e))
     .then(extractData<GetAccount, Account>((r) => {
-        console.log(r);
         return r.account;
     }));
 }
