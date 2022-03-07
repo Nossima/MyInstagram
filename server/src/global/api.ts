@@ -1,10 +1,34 @@
 import {
   Request, Response
 } from 'express';
+import * as core from 'express-serve-static-core';
 import { error } from './error';
 import {
   failure, Result
 } from './result';
+
+export class FakeRequest {
+  body: Object;
+  params: core.ParamsDictionary;
+  user: Object;
+  file: any;
+  query: any;
+
+  constructor(body: Object = {}, params: core.ParamsDictionary = {}, user: Object = {}) {
+    this.body = body;
+    this.params = params;
+    this.user = user;
+  }
+
+  withBody = (body: Object) =>
+    new FakeRequest(body, this.params, this.user);
+
+  withParams = (params: core.ParamsDictionary) =>
+    new FakeRequest(this.body, params, this.user);
+
+  withUser = (user: UserAuth) =>
+    new FakeRequest(this.body, this.params, user);
+}
 
 export interface UserAuth {
   accountId: string,
@@ -14,10 +38,12 @@ export interface UserAuth {
 }
 
 export interface CustomRequest extends Request {
-  user?: UserAuth
+  user?: UserAuth,
+  file: any,
+  query: any
 }
 
-export type APIRequest = (req: CustomRequest) => Promise<Result>;
+export type APIRequest = (req: CustomRequest | FakeRequest) => Promise<Result>;
 
 export const Endpoint = (apiRequest: APIRequest) => (req: CustomRequest, res: Response) => {
   apiRequest(req)

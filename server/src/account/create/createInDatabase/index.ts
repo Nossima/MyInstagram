@@ -16,9 +16,7 @@ const createAccountInDatabase: CreateAccountInDatabase = (account: Account) => {
   const newAccount = new AccountModel(account);
 
   return newAccount.save()
-    .then(() => {
-      return Right<Error, Account>(newAccount.toObject() as Account);
-    })
+    .then(() => Right<Error, Account>(newAccount.toObject() as Account))
     .catch((e) => Left(error('register', e as string || 'error.register')));
 };
 

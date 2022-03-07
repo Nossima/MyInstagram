@@ -25,22 +25,23 @@ const checkIfUsernameIsUsed = (maybeAccount: Maybe<Account>): Maybe<Error> =>
 
 const checkIfEmailIsUsed = (
   email: string
-) => (maybeError: Maybe<Error>) =>
+) => (maybeError: Maybe<Error>): Promise<Maybe<Error>> =>
   maybeError.cata(
-    () => getAccountByEmail(email).then((maybeAccount) =>
-      maybeAccount.cata(
-        () => None(),
-        () => Some(error('register', 'error.register.email.used'))
-      )),
-    () => Promise.resolve(Some(error('register', 'error.register.username.used')))
+    () => getAccountByEmail(email)
+      .then((maybeAccount) =>
+        maybeAccount.cata(
+          () => None(),
+          () => Some(error('register', 'error.register.email.used'))
+        )),
+    (err) => Promise.resolve(Some(err))
   );
 
 const createAccountIfAllowed = (
   account: Account
-) => (maybeAccount: Maybe<Error>) =>
-  maybeAccount.cata(
+) => (maybeError: Maybe<Error>) =>
+  maybeError.cata(
     () => createAccountInDatabase(account),
-    () => Promise.resolve(Left(error('register', 'error.register.email.used')))
+    (err) => Promise.resolve(Left(err))
   );
 
 export default createAccount;

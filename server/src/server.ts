@@ -3,7 +3,7 @@ import * as express from 'express';
 import * as cors from 'cors';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import router from './router';
+import router from 'router';
 
 const app = express();
 
@@ -14,9 +14,9 @@ dotenv.config();
 
 const port = process.env.PORT || 3000;
 
-const corsWhitelist = process.env.CORS_WHITELIST;
-const corsOptions = { origin: corsWhitelist };
-app.use(cors(corsOptions));
+//const corsWhitelist = process.env.CORS_WHITELIST;
+//const corsOptions = { origin: corsWhitelist };
+//app.use(cors(corsOptions));
 
 app.use(router);
 
@@ -33,6 +33,7 @@ app.listen(port, () => {
       delete ret.__v;
     }
   });
+  mongoose.set('useFindAndModify', false);
 
   mongoose.connect(process.env.DB_URL, {
     useCreateIndex: true,

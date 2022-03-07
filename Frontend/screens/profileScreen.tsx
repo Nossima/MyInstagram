@@ -1,48 +1,28 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import { Navigation } from '../navigation/navigation';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Navigation } from '../navigation/navigation';
+import { useRoute } from '@react-navigation/native';
+
 import ProfileImage from '../assets/profileImage.png';
 import PostImage from '../assets/event.jpg';
+import { profileService } from "../service/profile/index";
+import { authentificationService } from "../service/authentification/";
 
-let isMe = false;
-let isPrivate = true;
+let isMe = true;
+let isPrivate = false;
 let isFollow = false;
-let nickname = 'alexandreguichet'
-let nbPosts = 13;
-let nbFollowers = 83;
-let nbFollowing = 86;
 let bio = 'Fume la vie avant quelle te fume - Baudelaire';
 let postsData = [[0, PostImage], [1, PostImage], [2, PostImage], [3, PostImage], [4, PostImage], [5, PostImage], [6, PostImage], [7, PostImage], [8, PostImage], [9, PostImage], [10, PostImage], [11, PostImage], [12, PostImage]];
 
-const top = () => {
-	if (isMe) {
-		return (
-			<View style={styles.row}>
-				<Text style={styles.nickname}>{nickname}</Text>
-				<TouchableOpacity activeOpacity={.5}>
-					<Icon name={'add-circle-outline'} size={30} color={'#ffffff'} />
-				</TouchableOpacity>
-			</View>
-		);
-	}
-	return (
-		<View style={styles.row}>
-			<TouchableOpacity activeOpacity={.5}>
-				<Icon name={'chevron-back-outline'} size={30} color={'rgba(255, 255, 255, 1)'} />
-			</TouchableOpacity>
-			<Text style={styles.nickname}>{nickname}</Text>
-			<Icon name={'chevron-back-outline'} size={30} color={'rgba(0, 0, 0, 1)'} />
-		</View>
-	);
-}
-
 const viewButtons = () => {
+	const navigation = useNavigation<any>();
+
 	if (isMe) {
 		return (
-			<View style={{ marginTop: '4%' }}>
-				<TouchableOpacity style={styles.buttonBorder} activeOpacity={.5}>
+			<View style={styles.buttons}>
+				<TouchableOpacity style={styles.buttonBorder} activeOpacity={.5} onPress={ () => navigation.navigate(Navigation.EditProfile) }>
 					<Text style={[styles.txt, { paddingVertical: '1.5%' }]}>Edit profile</Text>
 				</TouchableOpacity>
 			</View>
@@ -50,7 +30,7 @@ const viewButtons = () => {
 	}
 	if (!isFollow && isPrivate) {
 		return (
-			<View style={{ marginTop: '4%' }}>
+			<View style={styles.buttons}>
 				<TouchableOpacity style={[styles.buttonBorder, { backgroundColor: 'rgba(0, 140, 255, 1)' }]} activeOpacity={.5}>
 					<Text style={[styles.txt, { paddingVertical: '1.5%' }]}>Follow</Text>
 				</TouchableOpacity>
@@ -59,7 +39,7 @@ const viewButtons = () => {
 	}
 	if (!isFollow) {
 		return (
-			<View style={[styles.row, { marginTop: '4%' }]}>
+			<View style={[styles.row, styles.buttons]}>
 				<TouchableOpacity style={[styles.buttonBorder, { backgroundColor: 'rgba(0, 140, 255, 1)', width: '49%' }]} activeOpacity={.5}>
 					<Text style={[styles.txt, { paddingVertical: '3%' }]}>Follow</Text>
 				</TouchableOpacity>
@@ -70,7 +50,7 @@ const viewButtons = () => {
 		);
 	}
 	return (
-		<View style={[styles.row, { marginTop: '4%' }]}>
+		<View style={[styles.row, styles.buttons]}>
 			<TouchableOpacity style={[styles.buttonBorder, { width: '49%' }]} activeOpacity={.5} onPress={() => isFollow = false}>
 				<Text style={[styles.txt, { paddingVertical: '3%' }]}>Following</Text>
 			</TouchableOpacity>
@@ -107,24 +87,79 @@ const posts = () => {
 
 export const ProfileScreen: React.VFC = () => {
 	const navigation = useNavigation<any>();
+	const [data, setData]: any[] = useState([]);
+	const route = useRoute();
+	let username = route.params.username;
+
+	const top = (nickname: string) => {
+		if (isMe) {
+			return (
+				<View style={[styles.row, { paddingHorizontal: '2%' }]}>
+					<Text style={styles.nickname}>{nickname}</Text>
+					<TouchableOpacity activeOpacity={.5}>
+						<Icon name={'add-circle-outline'} size={30} color={'#ffffff'} />
+					</TouchableOpacity>
+				</View>
+			);
+		}
+		return (
+			<View style={[styles.row, { paddingHorizontal: '2%' }]}>
+				<TouchableOpacity activeOpacity={.5}>
+					<Icon name={'chevron-back-outline'} size={30} color={'rgba(255, 255, 255, 1)'} />
+				</TouchableOpacity>
+				<Text style={styles.nickname}>{nickname}</Text>
+				<Icon name={'chevron-back-outline'} size={30} color={'rgba(0, 0, 0, 1)'} />
+			</View>
+		);
+	}
+
+	useEffect(() => {
+		let tmpData: any[] = [];
+
+		profileService.profile(username)
+			.then((res) => {
+				res.cata(
+					(error) => {
+						console.log("error : " + error);
+					},
+					(response) => {
+						console.log(response);
+						tmpData[0] = response.username;
+						tmpData[1] = response.followedBy;
+						tmpData[2] = response.following;
+						tmpData[3] = response.posts;
+
+						setData(tmpData);
+					}
+				)
+			});
+	}, []);
+
+	if (data[0] == undefined) {
+		return (<View></View>);
+	}
 
 	return (
 		<View style={styles.background}>
-			{top()}
+			{top(data[0])}
 			<View style={[styles.row, styles.data]}>
 				<Image source={ProfileImage} style={styles.profilePicture} />
 				<View style={[styles.row, { width: '60%' }]}>
 					<View>
-						<Text style={styles.txt}>{nbPosts}</Text>
+						<Text style={styles.txt}>{data[3].length}</Text>
 						<Text style={styles.txt}>Posts</Text>
 					</View>
 					<View>
-						<Text style={styles.txt}>{nbFollowers}</Text>
-						<Text style={styles.txt}>Followers</Text>
+						<TouchableOpacity activeOpacity={.5} onPress={() => navigation.navigate(Navigation.Follow) }>
+							<Text style={styles.txt}>{data[1].length}</Text>
+							<Text style={styles.txt}>Followers</Text>
+						</TouchableOpacity>
 					</View>
 					<View>
-						<Text style={styles.txt}>{nbFollowing}</Text>
-						<Text style={styles.txt}>Following</Text>
+						<TouchableOpacity activeOpacity={.5} onPress={() => navigation.navigate(Navigation.Follow) }>
+							<Text style={styles.txt}>{data[2].length}</Text>
+							<Text style={styles.txt}>Following</Text>
+						</TouchableOpacity>
 					</View>
 				</View>
 			</View>
@@ -140,7 +175,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(0, 0, 0, 1)',
 		width: '100%',
 		height: '100%',
-		paddingTop: '10%',
+		paddingTop: '12%',
 	},
 	nickname: {
 		color: 'white',
@@ -155,10 +190,11 @@ const styles = StyleSheet.create({
 		marginTop: '4%',
 		height: '15%',
 		alignItems: 'center',
+		paddingHorizontal: '2%',
 	},
 	profilePicture: {
 		height: '100%',
-		width: '27%',
+		width: '30%',
 	},
 	txt: {
 		fontSize: 16,
@@ -168,7 +204,12 @@ const styles = StyleSheet.create({
 	bio: {
 		marginTop: '4%',
 		textAlign: 'left',
+		paddingHorizontal: '2%',
 	},
+	buttons: {
+		marginTop: '4%',
+		paddingHorizontal: '2%',
+    },
 	buttonBorder: {
 		borderWidth: 1,
 		borderColor: 'rgba(85, 85, 85, 1)',

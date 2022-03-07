@@ -14,19 +14,31 @@ export interface Account {
   id: string,
   username: string,
   email: string,
+  bio: string,
+  avatar: string,
   role: Role,
   password: string,
   birthDate: number,
-  token: string
+  private: boolean,
+  following: Array<string>,
+  followedBy: Array<string>,
+  posts: Array<string>,
+  friendRequests: Array<string>
 }
 
 export const AccountSchema = new Schema<Account>({
   username: { type: String, unique: true },
   email: { type: String, unique: true },
+  bio: { type: String },
+  avatar: { type: String },
   role: { type: String, enum: Role },
   password: { type: String },
   birthDate: { type: Number },
-  token: { type: String }
+  private: { type: Boolean, default: false },
+  following: { type: [String] },
+  followedBy: { type: [String] },
+  posts: { type: [String] },
+  friendRequests: { type: [String] }
 });
 
 AccountSchema.pre('save', function (next) {
@@ -53,3 +65,8 @@ AccountSchema.pre('save', function (next) {
 });
 
 export const AccountModel: Model<Account> = mongoose.model<Account>('Account', AccountSchema);
+
+export interface LoginResult {
+  token: string,
+  username: string
+}

@@ -4,13 +4,15 @@ import {
 import {
   error, Error
 } from 'global/error';
-import { Account } from 'account/models';
+import {
+  Account, LoginResult
+} from 'account/models';
 import * as bcrypt from 'bcryptjs';
 import getAccountByUsername from 'account/get/byUsername';
 import getAccountByEmail from 'account/get/byEmail';
 import * as jwt from 'jsonwebtoken';
 
-export type Login = (account: Partial<Account>) => Promise<Either<Error, string>>;
+export type Login = (account: Partial<Account>) => Promise<Either<Error, LoginResult>>;
 
 const login: Login = (account: Partial<Account>) =>
   getAccount(account)
@@ -20,7 +22,7 @@ const getAccount = (account: Partial<Account>): Promise<Maybe<Account>> =>
   getAccountByUsername(account.username)
     .then((maybeAccount) =>
       maybeAccount.cata(
-        () => getAccountByEmail(account.email)
+        () => getAccountByEmail(account.username)
           .then((maybeUser) =>
             maybeUser.cata(
               () => None(),
@@ -34,7 +36,7 @@ const checkPassword = (
   password: string
 ) => (maybeAccount: Maybe<Account>) =>
   maybeAccount.cata(
-    () => Promise.resolve(Left<Error, string>(error('login', 'error.login.account'))),
+    () => Promise.resolve(Left<Error, LoginResult>(error('login', 'error.login.account'))),
     (account) =>
       bcrypt.compare(password, account.password)
         .then((res) => {
@@ -44,9 +46,9 @@ const checkPassword = (
               process.env.TOKEN_KEY,
               { expiresIn: '2h' }
             );
-            return Right(token);
+            return Right({ token, username: account.username });
           } else
-            return Left<Error, string>(error('login', 'error.login.password'));
+            return Left<Error, LoginResult>(error('login', 'error.login.password'));
         })
   );
 
