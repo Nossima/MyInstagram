@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator();
 
 export const AppStack = () => {
     return (
-        <Stack.Navigator initialRouteName={Navigation.Login} screenOptions={{ headerShown: false}}>
+        <Stack.Navigator initialRouteName={Navigation.Home} screenOptions={{ headerShown: false}}>
             <Stack.Screen name={Navigation.OnBoarding} component={OnBoardingScreen} />
             <Stack.Screen name={Navigation.EditProfile} component={EditProfileScreen} />
             <Stack.Screen name={Navigation.Home} component={HomeScreen} />

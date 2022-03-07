@@ -23,7 +23,7 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 	useEffect(() => {
 		feedService.getToken()
 		.then((res) => {
-			if (res === null) {
+			if (!res || res === null || res === undefined) {
 				navigation.navigate('Login');
 			}
 			token = res;
