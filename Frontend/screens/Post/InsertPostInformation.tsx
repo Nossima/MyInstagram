@@ -1,10 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView  } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView } from "react-native";
 import { MyLocation } from "./MyLocation";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as DocumentPicker from 'react-native-document-picker';
 
-export const InsertPostInformation: React.VFC<{ navigation: any, selectedImage: string, backToPictureSelection: () => void }> = ({ navigation, selectedImage, backToPictureSelection }) => {
+export const InsertPostInformation: React.VFC<{ navigation: any, selectedImage: string, onPost: (caption: string, location:{ latitude: number, longitude: number } | null) => void, backToPictureSelection: () => void }> = ({ navigation, selectedImage, onPost, backToPictureSelection }) => {
     const [caption, setCaption] = useState("");
     const [captionColor, setCaptionColor] = useState("white");
     const [location, setMapLocation] = useState<{ latitude: number, longitude: number } | null>(null);
@@ -14,15 +15,16 @@ export const InsertPostInformation: React.VFC<{ navigation: any, selectedImage: 
         setCaption(newCaption);
     }
 
-    const onVerifyCaption = () => {
-        if (caption.trim() === "")
+    const onVerifyCaption = async () => {
+        if (caption.trim() === "") {
             setCaptionColor('red');
-        // Call back
-        // navigation.navigate('Home');
+            return;
+        }
+        onPost(caption, location);
     }
 
     return (
-        <ScrollView  style={styles.background}>
+        <ScrollView style={styles.background}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={backToPictureSelection}>
                     <Image source={require("../../assets/fleche.png")} style={styles.icone} />
@@ -37,7 +39,7 @@ export const InsertPostInformation: React.VFC<{ navigation: any, selectedImage: 
             <View style={styles.body}>
                 <Image source={{ uri: selectedImage }} style={styles.image} />
                 <TextInput onChangeText={onCaptionChange} value={caption} placeholder="Write a caption..." placeholderTextColor={captionColor} style={styles.caption} multiline={true} />
-                <MyLocation setMapsLocation={(latitude, longitude) => { setMapLocation({ latitude: latitude, longitude: longitude }) }} style={styles.location}/>
+                <MyLocation setMapsLocation={(latitude, longitude) => { setMapLocation({ latitude: latitude, longitude: longitude }) }} style={styles.location} />
             </View>
         </ScrollView >
     );

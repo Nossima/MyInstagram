@@ -42,6 +42,9 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 		<View style={styles.header}>
 			<Text style={[styles.tWhite, styles.brandName]}>MyInstagram</Text>
 			<View style={styles.icView}>
+				<TouchableOpacity onPress={() => navigation.navigate('CreatePost')}>
+    				<Image style={styles.icImg} source={require('../assets/heart.png')} />
+				</TouchableOpacity>
 				<TouchableOpacity onPress={() => navigation.navigate('FriendRequestSection')}>
     				<Image style={styles.icImg} source={require('../assets/heart.png')} />
 				</TouchableOpacity>

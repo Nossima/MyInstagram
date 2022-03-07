@@ -13,16 +13,14 @@ import {
 import { AccountModel } from 'account/models';
 import * as fs from 'fs';
 
-export type CreatePost = (title: string, location: Location, image: MulterFile, user: UserAuth) => Promise<Either<Error, Post>>;
+export type CreatePost = (title: string, location: Location, uri: string, user: UserAuth) => Promise<Either<Error, Post>>;
 
-const createNewPost: CreatePost = (title: string, location: Location = null, image: MulterFile, user: UserAuth) => {
+const createNewPost: CreatePost = (title: string, location: Location = null, uri: string, user: UserAuth) => {
   const post: Partial<Post> = {
     title: title,
     location: location,
-    image: {
-      data: fs.readFileSync('./uploads/' + image.filename ),
-      contentType: image.encoding
-    },
+    uri: uri,
+    date: Date.now(),
     likes: [],
 
   };
