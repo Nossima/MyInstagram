@@ -3,7 +3,7 @@ import { View } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import { MyCamera } from "./MyCamera";
 
-export const TakePicture : VFC<{navigation : any, setChosenPicture: (uri: string) => void}> = ({ navigation, setChosenPicture }) => {
+export const TakePicture : VFC<{navigation : any, setChosenPicture: (image: any) => void}> = ({ navigation, setChosenPicture }) => {
     const [isInGallery, setIsInGallery] = useState(false);
 
     const pickImage = async () => {
@@ -23,10 +23,9 @@ export const TakePicture : VFC<{navigation : any, setChosenPicture: (uri: string
             }
         );
         setIsInGallery(false);
-            
-        console.log(result);
+
         if (result && !result.cancelled) {
-            setChosenPicture(result.uri);
+            setChosenPicture(result);
         }
     };
 
@@ -35,7 +34,7 @@ export const TakePicture : VFC<{navigation : any, setChosenPicture: (uri: string
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <MyCamera exitPost={() => { navigation.navigate('Home') }}
                     openGallery={() => { pickImage() }}
-                    setImage={(uri: string) => { setChosenPicture(uri) }} />
+                    setImage={(image) => { setChosenPicture(image) }} />
             </View>
         );
     } else {

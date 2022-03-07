@@ -1,13 +1,11 @@
 import React, { useState, useEffect, VFC } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, Button, TouchableOpacityComponent } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, TouchableOpacityComponent, Async } from "react-native";
 import { Camera } from 'expo-camera'
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { PictureButton } from "./PictureButton";
-import { SafeAreaView } from "react-native-safe-area-context";
-import * as MediaLibrary from 'expo-media-library'
 
-export const MyCamera: VFC<{ isReadingQR?: boolean, exitPost: () => void, openGallery: () => void, setImage: (image: string) => void}> = ({ isReadingQR = false, exitPost, openGallery, setImage}) => {
+export const MyCamera: VFC<{ isReadingQR?: boolean, exitPost: () => void, openGallery: () => void, setImage: (image:any) => void}> = ({ isReadingQR = false, exitPost, openGallery, setImage}) => {
     const sourceFlashON = require("../../assets/Camera/flashON.png");
     const sourceFlashOFF = require("../../assets/Camera/flashOFF.png");
     const sourceFlashAUTO = require("../../assets/Camera/flashAUTO.png");
@@ -20,13 +18,12 @@ export const MyCamera: VFC<{ isReadingQR?: boolean, exitPost: () => void, openGa
     const [flashSource, setFlashSource] = useState(sourceFlashOFF);
     let cameraRef : Camera | null = null;
 
-    useEffect(() => {
-        (async () => {
-            await MediaLibrary.usePermissions();
-            const { status } = await Camera.requestCameraPermissionsAsync();
-            setHasCameraPermission(status === 'granted');
-        })();
-    }, []);
+    const askPermission = async () => {
+        const { status } = await Camera.requestCameraPermissionsAsync();
+        setHasCameraPermission(status === 'granted');
+    };
+    
+    useEffect(() => { askPermission()});
 
     const onFlip = () => {
         setType(type === Camera.Constants.Type.back
@@ -37,8 +34,7 @@ export const MyCamera: VFC<{ isReadingQR?: boolean, exitPost: () => void, openGa
     const takePicture = async () => {
         if (cameraRef) {
             let photo = await cameraRef.takePictureAsync();
-            MediaLibrary.createAssetAsync(photo.uri);
-            setImage(photo.uri);
+            setImage(photo);
         }
     }
 
@@ -59,8 +55,7 @@ export const MyCamera: VFC<{ isReadingQR?: boolean, exitPost: () => void, openGa
         }
     }
     return (
-        <SafeAreaView style={styles.background}>
-
+        <View style={styles.background}>
 
             <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
                 <TouchableOpacity onPress={exitPost}>
@@ -87,7 +82,7 @@ export const MyCamera: VFC<{ isReadingQR?: boolean, exitPost: () => void, openGa
                         style={styles.flipCamera} />
                 </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
 
