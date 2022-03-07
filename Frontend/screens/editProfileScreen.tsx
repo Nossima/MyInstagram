@@ -1,36 +1,26 @@
 import { useNavigation } from '@react-navigation/native';
-<<<<<<< HEAD
-import React from 'react';
-import { View, Text, Image } from 'react-native';
-import { Navigation } from '../navigation/navigation';
-
-export const EditProfileScreen: React.VFC = () => {
-	const Navigation = useNavigation();
-
-	return (
-		<View>
-			<Text>Test</Text>
-		</View>
-	);
-}
-=======
 import { Navigation } from '../navigation/navigation';
 import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
+import { useRoute } from '@react-navigation/native';
 
 import ProfileImage from '../assets/profileImage.png';
+import { profileService } from "../service/profile/index";
 
 export const EditProfileScreen: React.VFC = () => {
 	const navigation = useNavigation<any>();
 	const [profileImage, setProfileImage] = useState(ProfileImage);
-	let nickname = 'alexandreguichet'
-	let bio = 'Fume la vie avant quelle te fume fume fume fume fume fume fume fume fume fume fume fume fume - Baudelaire';
-	const [isPrivate, setIsPrivate] = useState(false);
+	const route = useRoute();
+	let username = route.params.username;
+	let bio = route.params.bio;
+	const [isPrivate, setIsPrivate] = useState(route.params.isPrivate);
 
 	const saveEdit = () => {
-		navigation.navigate(Navigation.Profile);
+		profileService.editProfile(username, bio, isPrivate);
+
+		navigation.navigate(Navigation.Home, { username: username });
 	}
 
 	const pickImage = async () => {
@@ -74,18 +64,18 @@ export const EditProfileScreen: React.VFC = () => {
 			{renderProfileImage()}
 			<Text style={styles.txtChangePicture} onPress={() => pickImage()}>Change profile photo</Text>
 			<View style={styles.editUsername}>
-				<Text style={[styles.txtEdit, { width: '30%' }]}>Username</Text>
+				<Text style={[styles.txtEdit, { width: '32%' }]}>Username</Text>
 				<TextInput
 					style={[styles.txtEdit, styles.input]}
-					onChangeText={(val) => nickname = val}
+					onChangeText={(val) => username = val}
 					placeholder={'Username'}
 					placeholderTextColor={'#5c5c5c'}
 					underlineColorAndroid='transparent'
-					defaultValue={nickname}
+					defaultValue={username}
 				/>
 			</View>
 			<View style={styles.editBio}>
-				<Text style={[styles.txtEdit, { width: '30%' }]}>Bio</Text>
+				<Text style={[styles.txtEdit, { width: '32%' }]}>Bio</Text>
 				<TextInput
 					style={[styles.txtEdit, styles.input]}
 					onChangeText={(val) => bio = val}
@@ -159,4 +149,3 @@ const styles = StyleSheet.create({
 		padding: 0,
 	},
 });
->>>>>>> profile

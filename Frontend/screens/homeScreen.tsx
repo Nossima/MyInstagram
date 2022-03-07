@@ -10,11 +10,7 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 	const img = { uri: "https://reactnative.dev/img/tiny_logo.png" };
 
 	const feedData = [
-<<<<<<< HEAD
 		<Post creatorImg={img} creatorTxt="creator1" img={img} name="image1" description="lorem ipsum trop bien on est la et voila"/>,
-=======
-		<Post creatorImg={img} creatorTxt="11" img={img} name="image1" description="lorem ipsum trop bien on est la et voila"/>,
->>>>>>> profile
 		<Post creatorImg={img} creatorTxt="creator2" img={img} name="image2" description="lorem ipsum trop bien on est la et voila"/>,
 		<Post creatorImg={img} creatorTxt="creator3" img={img} name="image3" description="lorem ipsum trop bien on est la et voila"/>,
 		<Post creatorImg={img} creatorTxt="creator4" img={img} name="image4" description="lorem ipsum trop bien on est la et voila"/>
@@ -59,11 +55,7 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 			<TouchableOpacity onPress={() => navigation.navigate('Home')}>
     			<Image style={styles.icImg} source={require('../assets/home_filled.png')} />
 			</TouchableOpacity>
-<<<<<<< HEAD
 			<TouchableOpacity onPress={() => navigation.navigate('Search')}>
-=======
-			<TouchableOpacity onPress={() => navigation.navigate('Home')}>
->>>>>>> profile
     			<Image style={styles.icImg} source={require('../assets/zoom.png')} />
 			</TouchableOpacity>
 			<TouchableOpacity onPress={() => navigation.navigate('Profile')}>
