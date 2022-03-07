@@ -6,22 +6,25 @@ import {
 } from 'global/error';
 import { UserAuth } from 'global/api';
 import {
+  Location,
   MulterFile,
   Post, PostModel
 } from 'post/models';
 import { AccountModel } from 'account/models';
 import * as fs from 'fs';
 
-export type CreatePost = (title: string, image: MulterFile, user: UserAuth) => Promise<Either<Error, Post>>;
+export type CreatePost = (title: string, location: Location, image: MulterFile, user: UserAuth) => Promise<Either<Error, Post>>;
 
-const createNewPost: CreatePost = (title: string, image: MulterFile, user: UserAuth) => {
+const createNewPost: CreatePost = (title: string, location: Location = null, image: MulterFile, user: UserAuth) => {
   const post: Partial<Post> = {
     title: title,
+    location: location,
     image: {
       data: fs.readFileSync('./uploads/' + image.filename ),
       contentType: image.encoding
     },
-    likes: []
+    likes: [],
+
   };
   post.author = user.accountId;
   const newPost = new PostModel(post);

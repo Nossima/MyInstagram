@@ -34,7 +34,7 @@ export const AccountSchema = new Schema<Account>({
   role: { type: String, enum: Role },
   password: { type: String },
   birthDate: { type: Number },
-  private: { type: Boolean },
+  private: { type: Boolean, default: false },
   following: { type: [String] },
   followedBy: { type: [String] },
   posts: { type: [String] },
@@ -65,3 +65,8 @@ AccountSchema.pre('save', function (next) {
 });
 
 export const AccountModel: Model<Account> = mongoose.model<Account>('Account', AccountSchema);
+
+export interface LoginResult {
+  token: string,
+  username: string
+}

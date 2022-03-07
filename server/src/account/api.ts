@@ -1,4 +1,6 @@
-import { APIRequest } from 'global/api';
+import {
+  APIRequest, UserAuth
+} from 'global/api';
 import {
   BadRequest, NotFound,
   Ok,
@@ -12,18 +14,36 @@ import getAccountList, { GetAccountList } from 'account/list';
 import getAccountByUsername, { GetAccountByUsername } from 'account/get/byUsername';
 import login, { Login } from 'account/login';
 import { error } from 'global/error';
+import followToggle, { FollowToggle } from 'account/follow';
+import acceptFriendRequest, { AcceptFriendRequest } from 'account/follow/acceptFriendRequest';
+import getFriendRequests, { GetFriendRequests } from 'account/follow/getFriendRequests';
+import editAccount, { EditAccount } from 'account/edit';
+import getFollowers, { GetFollowers } from 'account/follow/getFollowers';
+import getFollowed, { GetFollowed } from 'account/follow/getFollowed';
 
 class AccountAPI {
   private createAccount: CreateAccount;
   private accountLogin: Login;
   private listAccount: GetAccountList;
   private getAccountByUsername: GetAccountByUsername;
+  private toggleFollow: FollowToggle;
+  private listFriendRequests: GetFriendRequests;
+  private listFollowingAccounts: GetFollowers;
+  private listFollowedAccounts: GetFollowed;
+  private acceptFollow: AcceptFriendRequest;
+  private accountEdit: EditAccount;
 
   constructor() {
     this.createAccount = createNewAccount;
     this.accountLogin = login;
     this.listAccount = getAccountList;
     this.getAccountByUsername = getAccountByUsername;
+    this.toggleFollow = followToggle;
+    this.listFriendRequests = getFriendRequests;
+    this.listFollowingAccounts = getFollowers;
+    this.listFollowedAccounts = getFollowed;
+    this.acceptFollow = acceptFriendRequest;
+    this.accountEdit = editAccount;
   }
 
   register: APIRequest = (req): Promise<Result> =>
@@ -61,6 +81,54 @@ class AccountAPI {
       )
     );
 
+  toggleUserFollow: APIRequest = (req): Promise<Result> =>
+    validate(
+      yup.object({ id: yup.string().required('error.id.required') })
+    )(req.params)(() =>
+      this.toggleFollow(
+        req.params.id,
+        req.user as UserAuth
+      )
+        .then((maybeError) =>
+          maybeError.cata(
+            () => Ok(),
+            (e) => BadRequest(e)
+          )
+        )
+    );
+
+  listRequests: APIRequest = (req): Promise<Result> =>
+    this.listFriendRequests(req.user as UserAuth)
+      .then((listAccounts) => Ok(listAccounts));
+
+  listFollowers: APIRequest = (req): Promise<Result> =>
+    this.listFollowingAccounts(req.user as UserAuth)
+      .then((listAccounts) => Ok(listAccounts));
+
+  listFollowing: APIRequest = (req): Promise<Result> =>
+    this.listFollowedAccounts(req.user as UserAuth)
+      .then((listAccounts) => Ok(listAccounts));
+
+  acceptFriend: APIRequest = (req): Promise<Result> =>
+    validate(
+      yup.object({
+        id: yup.string().required('error.id.required'),
+        accept: yup.boolean().required('error.accept.required')
+      })
+    )(req.body)((body) =>
+      this.acceptFollow(
+        body.id,
+        body.accept,
+        req.user as UserAuth
+      )
+        .then((maybeError) =>
+          maybeError.cata(
+            () => Ok(),
+            (e) => BadRequest(e)
+          )
+        )
+    );
+
   list: APIRequest = (): Promise<Result> =>
     this.listAccount()
       .then((maybeAccounts) =>
@@ -81,6 +149,25 @@ class AccountAPI {
             (account) => Ok({ account })
           )
         )
+    );
+
+  edit: APIRequest = (req): Promise<Result> =>
+    validate(
+      yup.object({
+        username: yup.string().optional(),
+        bio: yup.string().optional(),
+        private: yup.boolean().optional()
+      })
+    )(req.body as Partial<Account>)((body) =>
+      this.accountEdit(
+        body as Account,
+        req.user as UserAuth
+      ).then((errorOrAccount) =>
+        errorOrAccount.cata(
+          BadRequest,
+          (account) => Ok({ account })
+        )
+      )
     );
 }
 

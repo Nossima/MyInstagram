@@ -21,6 +21,12 @@ export interface MulterFile {
 
 }
 
+export interface Location {
+  latitude: number,
+  longitude: number
+}
+
+
 export interface Post {
   id: string,
   title: string,
@@ -28,6 +34,7 @@ export interface Post {
     data: Buffer,
     contentType: String
   },
+  location: Location
   date: number,
   author: string,
   likes: Array<string>,
@@ -39,6 +46,10 @@ export const PostSchema = new Schema<Post>({
   image: {
     data: Buffer,
     contentType: String
+  },
+  location: {
+    latitude: { type: Number },
+    longitude: { type: Number }
   },
   date: { type: Number },
   author: { type: String },

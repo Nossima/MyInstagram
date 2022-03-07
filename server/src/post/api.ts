@@ -36,10 +36,17 @@ class PostAPI {
 
   newPost: APIRequest = (req): Promise<Result> =>
     validate(
-      yup.object({ title: yup.string().required('error.title.required') })
+      yup.object({
+        title: yup.string().required('error.title.required'),
+        location: yup.object({
+          latitude: yup.number().optional(),
+          longitude: yup.number().optional()
+        }).optional()
+      })
     )(req.body as Partial<Post>)((body) =>
       this.createPost(
         body.title,
+        body.location,
         req.file as MulterFile,
         req.user as UserAuth
       ).then((errorOrPost) =>
