@@ -9,7 +9,7 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 	let token: any;
 	const img = { uri: "https://reactnative.dev/img/tiny_logo.png" };
 
-	const [data, changeData] = React.useState([]);
+	const [data, changeData]: any[] = React.useState([]);
 
 	const feedData = [
 		<Post creatorImg={img} creatorTxt="creator1" img={img} name="image1" description="lorem ipsum trop bien on est la et voila"/>,
@@ -19,7 +19,7 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 	];
 
 	const renderItem = (data: any) => {
-		return <Post creatorImg={data.item.props.creatorImg} creatorTxt={data.item.props.creatorTxt} img={data.item.props.imgUrl} name={data.item.props.name} description={data.item.props.description}/>
+		return <Post creatorImg={{}} creatorTxt={data.item.author} img={{}} name={data.item.author} description={data.item.title}/>
 	}
 
 	useEffect(() => {
@@ -35,10 +35,19 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 
 	const getFeed = (number: number) => {
 		feedService.getfeed(token, 10, 0)
-		.then((res) => {
-			console.log("========================")
-			console.log(res)
-		})
+		.then((resOrError) =>
+			resOrError.cata(
+				(err) => {
+				},
+				(res) => {
+					var newData: any[] = [];
+					for (var i = 0; i < res.length; i++) {
+						newData.push(res[i]);
+					}
+					changeData(newData);
+				}
+			)
+		)
 	}
 
 	return <View style={styles.background}>

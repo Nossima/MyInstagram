@@ -31,6 +31,7 @@ function getfeed(token: string, number: number, page: number, date: number = Dat
     .then(parseAxiosDataOrError)
     .catch((e) => catchAxiosDataOrError<GetFeed>(e))
     .then(extractData<GetFeed, Post[]>((r) => {
+        console.log(r.posts)
         return r.posts;
     }));
 }

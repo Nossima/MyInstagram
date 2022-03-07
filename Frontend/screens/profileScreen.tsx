@@ -72,7 +72,7 @@ export const ProfileScreen: React.VFC = () => {
 	const posts = () => {
 		let row = [];
 		let viewPosts = [];
-
+		
 		if (postsData.length == 0) {
 			return;
 		}
@@ -144,6 +144,7 @@ export const ProfileScreen: React.VFC = () => {
 						tmpData[4] = response.bio;
 						tmpData[5] = response.private;
 						id = response._id.toString();
+						postsData = response.posts;
 						setData(tmpData);
 					}
 				)
