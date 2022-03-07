@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import axios from 'axios';
 
 export let API = axios.create({
-    baseURL: "http://192.168.1.18:3000"
+    baseURL: "http://10.10.10.103:3000"
 });
 
 global.username = '';
