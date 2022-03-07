@@ -72,11 +72,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: 'rgba(85, 85, 85, 1)',
         height: hp(5),
-<<<<<<< HEAD
         width: wp(96),
-=======
-        width: wp(72),
->>>>>>> profile
         color: 'white',
         paddingLeft: wp(1),
         paddingRight: wp(1),
