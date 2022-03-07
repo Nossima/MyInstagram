@@ -61,7 +61,12 @@ export const Login: React.VFC<any> = ({ navigation }) => {
                     }
                 },
                 (res) => {
+<<<<<<< HEAD
                     save('bearer_token', res);
+=======
+                    global.username = res.username;
+                    save('bearer_token', res.token);
+>>>>>>> profile
                     navigation.navigate('Home');
                 }
             )

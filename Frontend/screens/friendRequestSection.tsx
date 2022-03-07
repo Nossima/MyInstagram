@@ -1,5 +1,6 @@
 import React from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+<<<<<<< HEAD
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { Request } from '../component/Request';
 import { requestService } from '../service/request';
@@ -37,15 +38,29 @@ export const FriendRequestSection: React.VFC<any> = ({ navigation }) => {
         </View>
         <FlatList data={RData} renderItem={(item: any) => renderItem(item)} />
     </View>
+=======
+import { View, Text, StyleSheet } from 'react-native';
+
+export const FriendRequestSection: React.VFC<any> = ({ navigation }) => {
+
+	return <View style={styles.background}>
+        <Text style={styles.tWhite}>FriendRequestSection</Text>
+	</View>
+>>>>>>> profile
 }
 
 const styles = StyleSheet.create({
     background: {
+<<<<<<< HEAD
         backgroundColor: 'rgba(0, 0, 0, 1)',
+=======
+		backgroundColor: 'rgba(0, 0, 0, 1)',
+>>>>>>> profile
         width: '100%',
         height: '100%',
         paddingTop: '10%'
     },
+<<<<<<< HEAD
     header: {
         display: 'flex',
         flexDirection: 'row',
@@ -69,6 +84,8 @@ const styles = StyleSheet.create({
         height: hp(8),
         resizeMode: 'center'
     },
+=======
+>>>>>>> profile
     tWhite: {
         color: 'white'
     }

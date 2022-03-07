@@ -3,6 +3,7 @@ export enum Navigation {
     Home = 'Home',
     Search = 'Search',
     Profile = 'Profile',
+    Follow = 'Follow',
     Login = 'Login',
     Register = 'Register',
     DmList = 'DmList',

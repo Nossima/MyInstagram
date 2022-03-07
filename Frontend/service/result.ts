@@ -20,7 +20,12 @@ export interface ResultContent<T> {
 
 export const resultDataOrError = <T>(result: ResultContent<T>): Either<Error[], T> => {
   if (result.success && result.data)
+<<<<<<< HEAD
     return Right(result.data);
+=======
+        return Right(result.data);
+    console.log(result);
+>>>>>>> profile
   return Left(result.errors || [error('data', 'error.no-data')]);
 };
 

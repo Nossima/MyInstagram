@@ -1,10 +1,24 @@
 {
   "ExpandedNodes": [
     "",
+<<<<<<< HEAD
     "\\assets",
     "\\navigation",
     "\\screens"
   ],
   "SelectedNode": "\\assets\\icon.png",
+=======
+    "\\component",
+    "\\navigation",
+    "\\screens",
+    "\\screens\\authentification",
+    "\\screens\\Post",
+    "\\service",
+    "\\service\\authentification",
+    "\\service\\feed",
+    "\\service\\profile"
+  ],
+  "SelectedNode": "\\service\\feed\\index.ts",
+>>>>>>> profile
   "PreviewInSolutionExplorer": false
 }

@@ -20,6 +20,10 @@ type GetAccount = { account: Account };
 
 interface Token {
     token: string
+<<<<<<< HEAD
+=======
+    username: string
+>>>>>>> profile
 }
 
 type GetToken = { token: Token }
