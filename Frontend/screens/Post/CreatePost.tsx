@@ -39,17 +39,17 @@ export const CreatePost: VFC<any> = ({ navigation }) => {
         createPostService.createPost(caption, image.uri, location)
             .then((res) => {
                 console.log(res);
+                navigation.navigate('Home');
             });
-    // navigation.navigate('Home');
-}
+    }
 
-if (!isPictureSelected) {
-    return (
-        <TakePicture navigation={navigation} setChosenPicture={setChosenImage} />
-    );
-} else {
-    return (
-        <InsertPostInformation navigation={navigation} selectedImage={image.uri} onPost={onPost} backToPictureSelection={() => { setIsPictureSelected(false) }} />
-    );
-}
+    if (!isPictureSelected) {
+        return (
+            <TakePicture navigation={navigation} setChosenPicture={setChosenImage} />
+        );
+    } else {
+        return (
+            <InsertPostInformation navigation={navigation} selectedImage={image.uri} onPost={onPost} backToPictureSelection={() => { setIsPictureSelected(false) }} />
+        );
+    }
 };

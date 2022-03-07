@@ -9,6 +9,8 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 	let token: any;
 	const img = { uri: "https://reactnative.dev/img/tiny_logo.png" };
 
+	const [data, changeData] = React.useState([]);
+
 	const feedData = [
 		<Post creatorImg={img} creatorTxt="creator1" img={img} name="image1" description="lorem ipsum trop bien on est la et voila"/>,
 		<Post creatorImg={img} creatorTxt="creator2" img={img} name="image2" description="lorem ipsum trop bien on est la et voila"/>,
@@ -32,9 +34,8 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 	}, []);
 
 	const getFeed = (number: number) => {
-		feedService.getfeed(token, 1, 1)
+		feedService.getfeed(token, 10, 0)
 		.then((res) => {
-			console.log(res)
 		})
 	}
 
@@ -43,7 +44,7 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 			<Text style={[styles.tWhite, styles.brandName]}>MyInstagram</Text>
 			<View style={styles.icView}>
 				<TouchableOpacity onPress={() => navigation.navigate('CreatePost')}>
-    				<Image style={styles.icImg} source={require('../assets/heart.png')} />
+    				<Image style={styles.icImg} source={require('../assets/newConv.png')} />
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => navigation.navigate('FriendRequestSection')}>
     				<Image style={styles.icImg} source={require('../assets/heart.png')} />
@@ -53,7 +54,7 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 				</TouchableOpacity>
 			</View>
 		</View>
-		<FlatList data={feedData} renderItem={(item: any) => renderItem(item)}/>
+		<FlatList data={data} renderItem={(item: any) => renderItem(item)}/>
 		<View style={styles.navBarBottom}>
 			<TouchableOpacity onPress={() => navigation.navigate('Home')}>
     			<Image style={styles.icImg} source={require('../assets/home_filled.png')} />
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		width: wp(18),
+		width: wp(28),
 		marginLeft: wp(2),
 		marginRight: wp(2)
 	},
