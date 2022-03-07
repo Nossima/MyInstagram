@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     loginText: {
+        marginLeft: wp(2),
         color: '#db2b92'
     },
     tWhite: {

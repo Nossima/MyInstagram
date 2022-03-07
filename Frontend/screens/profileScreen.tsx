@@ -11,6 +11,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import ProfileImage from '../assets/profileImage.png';
 import PostImage from '../assets/event.jpg';
 import { profileService } from "../service/profile/index";
+import { requestService } from '../service/request';
 
 let isFollow = false;
 let postsData = [[0, PostImage], [1, PostImage], [2, PostImage], [3, PostImage], [4, PostImage], [5, PostImage], [6, PostImage], [7, PostImage], [8, PostImage], [9, PostImage], [10, PostImage], [11, PostImage], [12, PostImage]];
@@ -20,8 +21,10 @@ export const ProfileScreen: React.VFC = () => {
 	const [data, setData]: any[] = useState([]);
 	const route = useRoute();
 	const [modalVisible, setModalVisible] = useState(false);
+	let tmpData: any[] = [];
+	let id = '';
 
-	const viewButtons = () => {
+	const viewButtons = (tmpData: any) => {
 		const navigation = useNavigation<any>();
 
 		if (data[0] == global.username) {
@@ -45,7 +48,7 @@ export const ProfileScreen: React.VFC = () => {
 		if (!isFollow) {
 			return (
 				<View style={[styles.row, styles.buttons]}>
-					<TouchableOpacity style={[styles.buttonBorder, { backgroundColor: 'rgba(0, 140, 255, 1)', width: '49%' }]} activeOpacity={.5}>
+					<TouchableOpacity style={[styles.buttonBorder, { backgroundColor: 'rgba(0, 140, 255, 1)', width: '49%' }]} activeOpacity={.5} onPress={() => requestService.sendRequest(id)}>
 						<Text style={[styles.txt, { paddingVertical: '3%' }]}>Follow</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={[styles.buttonBorder, { width: '49%' }]} activeOpacity={.5}>
@@ -110,7 +113,7 @@ export const ProfileScreen: React.VFC = () => {
 		}
 		return (
 			<View style={[styles.row, { paddingHorizontal: '2%' }]}>
-				<TouchableOpacity activeOpacity={.5}>
+				<TouchableOpacity activeOpacity={.5} onPress={() => navigation.goBack()}>
 					<Icon name={'chevron-back-outline'} size={30} color={'rgba(255, 255, 255, 1)'} />
 				</TouchableOpacity>
 				<Text style={styles.nickname}>{nickname}</Text>
@@ -120,11 +123,10 @@ export const ProfileScreen: React.VFC = () => {
 	}
 
 	useEffect(() => {
-		let tmpData: any[] = [];
 		let tmpUsername = '';
 
-		if (route.params.username == undefined) {
-			tmpUsername = 'alexandreguichet';
+		if (!route.params.username || route.params.username == undefined) {
+			navigation.navigate('Login');
 		} else {
 			tmpUsername = route.params.username;
 		}
@@ -135,15 +137,13 @@ export const ProfileScreen: React.VFC = () => {
 					(error) => {
 					},
 					(response) => {
-						let newTmpData = {
-							username: response.username,
-						};
 						tmpData[0] = response.username;
 						tmpData[1] = response.followedBy;
 						tmpData[2] = response.following;
 						tmpData[3] = response.posts;
 						tmpData[4] = response.bio;
 						tmpData[5] = response.private;
+						id = response._id.toString();
 						setData(tmpData);
 					}
 				)
@@ -190,6 +190,17 @@ export const ProfileScreen: React.VFC = () => {
 			<Text style={[styles.txt, styles.bio]}>{data[4]}</Text>
 			{viewButtons()}
 			{posts()}
+			<View style={styles.navBarBottom}>
+				<TouchableOpacity onPress={() => navigation.navigate('Home')}>
+    				<Image style={styles.icImg} source={require('../assets/home.png')} />
+				</TouchableOpacity>
+				<TouchableOpacity onPress={() => navigation.navigate('Search')}>
+    				<Image style={styles.icImg} source={require('../assets/zoom.png')} />
+				</TouchableOpacity>
+				<TouchableOpacity>
+    				<Image style={styles.icImg} source={require('../assets/profileImage.png')} />
+				</TouchableOpacity>
+			</View>
 		</View>
 	);
 }
@@ -272,4 +283,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		height: '25%',
     },
+	icImg: {
+		width: wp(8),
+		height: hp(8),
+		resizeMode: 'center'
+	},
+	navBarBottom: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+	}
 });

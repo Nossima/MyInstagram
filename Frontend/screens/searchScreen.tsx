@@ -10,9 +10,7 @@ export const SearchScreen: React.VFC<any> = ({ navigation }) => {
 	const img = { uri: "https://reactnative.dev/img/tiny_logo.png" };
 
 	const renderItem = (data: any) => {
-        if (input !== '' && data.item.props.usrName.includes(input)) {
-		    return <User usrImg={data.item.props.usrImg} usrName={data.item.props.usrName}/>
-        } else if (input === '') {
+        if (input !== '' && data.item.props.usrName.includes(input) && data.item.props.usrName != global.username) {
 		    return <User usrImg={data.item.props.usrImg} usrName={data.item.props.usrName}/>
         }
         return <View/>;

@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     registerText: {
+        marginLeft: wp(2),
         color: '#db2b92'
     },
     tWhite: {

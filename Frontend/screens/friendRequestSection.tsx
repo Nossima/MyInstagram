@@ -33,6 +33,8 @@ export const FriendRequestSection: React.VFC<any> = ({ navigation }) => {
                 <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                     <Image style={styles.icImg} source={require('../assets/fleche.png')} />
                 </TouchableOpacity>
+                <Text style={[styles.tWhite, styles.friendRequestTxt]}>Friend request</Text>
+                <Text style={{width: hp(4)}}>T</Text>
             </View>
         </View>
         <FlatList data={RData} renderItem={(item: any) => renderItem(item)} />
@@ -47,9 +49,12 @@ const styles = StyleSheet.create({
         paddingTop: '10%'
     },
     header: {
+        marginLeft: wp(2),
+        width: wp(96),
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginBottom: hp(2)
     },
     brandName: {
         marginTop: hp(2),
@@ -68,6 +73,12 @@ const styles = StyleSheet.create({
         width: wp(8),
         height: hp(8),
         resizeMode: 'center'
+    },
+    friendRequestTxt: {
+        fontSize: hp(2.4),
+        marginTop: hp(2.4),
+        marginLeft: wp(23),
+        width: wp(60)
     },
     tWhite: {
         color: 'white'

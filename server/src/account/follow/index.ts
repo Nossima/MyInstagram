@@ -11,6 +11,7 @@ import { AccountModel } from 'account/models';
 export type FollowToggle = (id: string, user: UserAuth) => Promise<Maybe<Error>>;
 
 const followToggle: FollowToggle = (id: string, user: UserAuth) => {
+  console.log(id)
   if (id === user.accountId)
     return Promise.resolve(Some(error('follow', 'error.follow.self')));
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -29,7 +30,7 @@ const addToFollowedBy = (id: string) => (maybeAccount) =>
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
           _.pull(account.friendRequests, id) :
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          _.concat(account.friendRequests, id);
+          _.concat(...id);
         account.markModified('friendRequests');
         return account.save()
           .then(() => None<Error>())
@@ -40,7 +41,7 @@ const addToFollowedBy = (id: string) => (maybeAccount) =>
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
           _.pull(account.followedBy, id) :
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          _.concat(account.followedBy, id);
+          _.concat(...id);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
         account.markModified('followedBy');
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access

@@ -13,7 +13,7 @@ const accountAPIRoutes = (router: Router) => {
 
   router.post('/login', Endpoint(accountAPI.login));
 
-  router.put('/:id/follow', verifyToken, verifyUser, Endpoint(accountAPI.toggleUserFollow));
+  router.put('/:id/follow', verifyToken, Endpoint(accountAPI.toggleUserFollow));
 
   router.get('/friendRequests', verifyToken, verifyUser, Endpoint(accountAPI.listRequests));
 

@@ -36,6 +36,8 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 	const getFeed = (number: number) => {
 		feedService.getfeed(token, 10, 0)
 		.then((res) => {
+			console.log("========================")
+			console.log(res)
 		})
 	}
 
@@ -46,7 +48,7 @@ export const HomeScreen: React.VFC<any> = ({ navigation }) => {
 				<TouchableOpacity onPress={() => navigation.navigate('CreatePost')}>
     				<Image style={styles.icImg} source={require('../assets/newConv.png')} />
 				</TouchableOpacity>
-				<TouchableOpacity onPress={() => navigation.navigate('FriendRequestSection')}>
+				<TouchableOpacity onPress={() => navigation.navigate('FriendRequestSection', {})}>
     				<Image style={styles.icImg} source={require('../assets/heart.png')} />
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => navigation.navigate('DmList')}>

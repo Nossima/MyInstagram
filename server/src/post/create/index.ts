@@ -42,7 +42,7 @@ const createNewPost: CreatePost = (title: string, location: Location = null, uri
 const saveInUser = (userId: string, postId: string): Promise<Maybe<Error>> =>
   AccountModel.findOne({ _id: userId }).exec()
     .then((user) => {
-      user.posts.concat(postId);
+      user.posts.push(postId);
       return user.save()
         .then(() => None<Error>())
         .catch((e) => Promise.resolve(Some(error('newPost', e as string || 'error.newPost'))));

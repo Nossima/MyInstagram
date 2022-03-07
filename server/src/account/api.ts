@@ -81,8 +81,9 @@ class AccountAPI {
       )
     );
 
-  toggleUserFollow: APIRequest = (req): Promise<Result> =>
-    validate(
+  toggleUserFollow: APIRequest = (req): Promise<Result> =>{
+    console.log(req)
+    return validate(
       yup.object({ id: yup.string().required('error.id.required') })
     )(req.params)(() =>
       this.toggleFollow(
@@ -95,7 +96,7 @@ class AccountAPI {
             (e) => BadRequest(e)
           )
         )
-    );
+    );}
 
   listRequests: APIRequest = (req): Promise<Result> =>
     this.listFriendRequests(req.user as UserAuth)

@@ -8,7 +8,7 @@ import { AccountModel } from 'account/models';
 export type GetFeed = (params: FeedParams, user: UserAuth) => Promise<Post[]>;
 
 const getFeed: GetFeed = (params: FeedParams, user: UserAuth) =>
-  AccountModel.findOne({ _id: user.accountId }).exec()
+    AccountModel.findOne({ _id: user.accountId }).exec()
     .then((account) => {
       let posts: Post[] = [];
       const forEachPromise = account.following.map((followedUser) =>
@@ -23,7 +23,6 @@ const getFeed: GetFeed = (params: FeedParams, user: UserAuth) =>
           return posts.slice(params.page * params.number, (params.page + 1) * params.number);
         })
         .catch((e) => {
-          console.log(e);
           return [];
         });
     });

@@ -30,28 +30,29 @@ export interface Location {
 export interface Post {
   id: string,
   title: string,
-  uri: string,
   // image: {
   //   data: Buffer,
   //   contentType: String
   // },
-  location: Location
+  location: Location,
+  uri: string,
   date: number,
   author: string,
   likes: Array<string>,
   comments: Array<string>
 }
 
-export const PostSchema = new Schema<Post>({
+export const PostSchema : Schema<Post> = new Schema<Post>({
   title: { type: String },
-  image: {
-    data: Buffer,
-    contentType: String
-  },
+  // image: {
+  //   data: Buffer,
+  //   contentType: String
+  // },
   location: {
     latitude: { type: Number },
     longitude: { type: Number }
   },
+  uri: { type: String },
   date: { type: Number },
   author: { type: String },
   likes: { type: [String] },
