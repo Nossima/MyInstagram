@@ -17,9 +17,7 @@ export const TakePicture : VFC<{navigation : any, setChosenPicture: (image: any)
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync(
             {
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
-                quality: 1,
+                mediaTypes: ImagePicker.MediaTypeOptions.Images
             }
         );
         setIsInGallery(false);

@@ -41,18 +41,26 @@ class PostAPI {
         location: yup.object({
           latitude: yup.number().optional(),
           longitude: yup.number().optional()
-        }).optional()
+        }).nullable().optional(),
+        uri: yup.string().required('error.uri.required')
       })
     )(req.body as Partial<Post>)((body) =>
       this.createPost(
         body.title,
         body.location,
-        req.file as MulterFile,
+        body.uri,
+        // req.file as MulterFile,
         req.user as UserAuth
       ).then((errorOrPost) =>
         errorOrPost.cata(
-          BadRequest,
-          (post) => Ok({ post })
+          () => {
+            console.log(BadRequest());
+            return BadRequest();
+          },
+          (post) => {
+            console.log(Ok({ post }));
+            return Ok({ post });
+          }
         )
       )
     );
@@ -67,7 +75,7 @@ class PostAPI {
     )(req.query)((body) => {
       return this.getFeed(
         body,
-        req.user as UserAuth
+        req.user as UserAuth 
       ).then((posts) => {
         console.log(Ok({ posts }));
         return Ok({ posts });

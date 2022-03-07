@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as DocumentPicker from 'react-native-document-picker';
 
 export const InsertPostInformation: React.VFC<{ navigation: any, selectedImage: string, onPost: (caption: string, location:{ latitude: number, longitude: number } | null) => void, backToPictureSelection: () => void }> = ({ navigation, selectedImage, onPost, backToPictureSelection }) => {
-    const [caption, setCaption] = useState("test");
+    const [caption, setCaption] = useState("");
     const [captionColor, setCaptionColor] = useState("white");
     const [location, setMapLocation] = useState<{ latitude: number, longitude: number } | null>(null);
 

@@ -30,10 +30,11 @@ export interface Location {
 export interface Post {
   id: string,
   title: string,
-  image: {
-    data: Buffer,
-    contentType: String
-  },
+  uri: string,
+  // image: {
+  //   data: Buffer,
+  //   contentType: String
+  // },
   location: Location
   date: number,
   author: string,
