@@ -11,6 +11,6 @@
     "\\service\\feed",
     "\\service\\profile"
   ],
-  "SelectedNode": "\\service\\feed\\index.ts",
+  "SelectedNode": "\\screens\\authentification\\register.tsx",
   "PreviewInSolutionExplorer": false
 }

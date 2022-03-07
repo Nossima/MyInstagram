@@ -2,13 +2,14 @@ import React from "react";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import { Navigation } from '../navigation/navigation';
 
 
 export const Post: React.VFC<{creatorImg: any, creatorTxt: string, img: any, name: string, description: string}> = ({creatorImg, creatorTxt, img, name, description}) => {
 	const navigation = useNavigation<any>();
 
     return <View>
-        <TouchableOpacity style={styles.creatorView} onPress={() => navigation.navigate('Profile', { username: creatorTxt })}>
+        <TouchableOpacity style={styles.creatorView} onPress={() => navigation.navigate(Navigation.Profile, { username: creatorTxt })}>
             <Image style={styles.creatorImg} source={require('../assets/profileImage.png')}/>
             <Text style={[styles.tWhite, styles.creatorTxt]}>{creatorTxt}</Text>
 		</TouchableOpacity>
